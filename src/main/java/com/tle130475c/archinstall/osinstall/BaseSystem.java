@@ -9,6 +9,7 @@ import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.isPackageInstalled;
 import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunChroot;
 import static com.tle130475c.archinstall.util.ShellUtil.runAppendOutputToFile;
+import static com.tle130475c.archinstall.util.ShellUtil.runGetOutput;
 import static com.tle130475c.archinstall.util.ShellUtil.runSetInput;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
@@ -74,6 +75,13 @@ public class BaseSystem {
         runVerbose(List.of("pacstrap", CHROOT_DIR, "base", "base-devel", "linux", "linux-headers", "linux-firmware",
                 "man-pages", "man-db", "iptables-nft", "pipewire", "pipewire-pulse", "pipewire-alsa", "alsa-utils",
                 "gst-plugin-pipewire", "wireplumber"));
+    }
+
+    public void disableMakePkgDebug() throws IOException {
+        String makePkgConfPath = CHROOT_DIR + "/etc/makepkg.conf";
+
+        backupFile(makePkgConfPath);
+        findAndReplaceInLine(makePkgConfPath, "^OPTIONS=\\(.*\\)$", "debug", "!debug");
     }
 
     public void configureFstab() throws IOException, InterruptedException {
@@ -260,6 +268,7 @@ public class BaseSystem {
         configureMirrors();
         prepareDisk();
         installEssentialPackages();
+        disableMakePkgDebug();
         configureFstab();
         configureTimeZone();
         configureLocalization();
