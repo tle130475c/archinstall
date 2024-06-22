@@ -8,7 +8,7 @@ public class MainMenu extends SingleChoiceMenu {
         super();
         addOption(new Option("Install System Full (live system)", new InstallSystem(), false));
         addOption(new Option("Install System Selective (live system)", new InstallSystemSelective(), false));
-        addOption(new Option("Configure GNOME (installed system with GNOME DE)", new ConfigureSystem(), false));
+        addOption(new Option("Configure System After Install (installed system)", new ConfigureSystem(), false));
         addOption(new Option("Configure As A VirtualBox Guest (sudo)", new ConfigureAsVBGuest(null, null), false));
         addOption(new Option("Enable DNSCryptProxy (installed system, sudo)", new EnableDNSCryptProxy(), false));
         addOption(new Option("Disable DNSCryptProxy (installed system, sudo)", new DisableDNSCryptProxy(), false));

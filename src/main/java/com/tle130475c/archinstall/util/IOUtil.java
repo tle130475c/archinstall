@@ -35,4 +35,9 @@ public final class IOUtil {
         Pattern pattern = Pattern.compile("y|yes", Pattern.CASE_INSENSITIVE);
         return pattern.matcher(answer).matches() || answer.isBlank();
     }
+
+    public static boolean confirmDefaultNo(String answer) {
+        Pattern pattern = Pattern.compile("y|yes", Pattern.CASE_INSENSITIVE);
+        return pattern.matcher(answer).matches();
+    }
 }
