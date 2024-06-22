@@ -3,7 +3,7 @@ package com.tle130475c.archinstall.menu.mainmenu;
 import static com.tle130475c.archinstall.util.DiskUtil.eraseDisk;
 import static com.tle130475c.archinstall.util.DiskUtil.getPathToDisk;
 import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
-import static com.tle130475c.archinstall.util.IOUtil.isAnswerYes;
+import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class EraseDisk implements Runnable {
             System.console().printf("Enter disk's name (e.g. nvme0n1, sda): ");
             String diskName = System.console().readLine();
 
-            if (isAnswerYes(getConfirmation(":: Proceed with erase? [Y/n] "))) {
+            if (confirmDefaultYes(getConfirmation(":: Proceed with erase? [Y/n] "))) {
                 eraseDisk(getPathToDisk(diskName));
             }
         } catch (IOException | InterruptedException e) {

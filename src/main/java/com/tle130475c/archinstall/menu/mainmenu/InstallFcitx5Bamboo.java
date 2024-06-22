@@ -1,7 +1,7 @@
 package com.tle130475c.archinstall.menu.mainmenu;
 
 import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
-import static com.tle130475c.archinstall.util.IOUtil.isAnswerYes;
+import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class InstallFcitx5Bamboo implements Runnable {
         UserAccount userAccount = new UserAccount(null, username, null);
         KDEPlasma kdePlasma = new KDEPlasma(null, userAccount);
 
-        if (isAnswerYes(getConfirmation(":: Proceed with installation? [Y/n] "))) {
+        if (confirmDefaultYes(getConfirmation(":: Proceed with installation? [Y/n] "))) {
             try {
                 kdePlasma.installFcitx5Bamboo();
             } catch (InterruptedException | IOException e) {

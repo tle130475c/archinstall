@@ -6,7 +6,7 @@ import com.tle130475c.archinstall.systeminfo.UserAccount;
 import java.io.IOException;
 
 import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
-import static com.tle130475c.archinstall.util.IOUtil.isAnswerYes;
+import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
 
 public class InstallVirtualBox implements Runnable {
     @Override
@@ -16,7 +16,7 @@ public class InstallVirtualBox implements Runnable {
         UserAccount userAccount = new UserAccount(null, username, null);
         VirtualBox virtualBox = new VirtualBox(null, userAccount);
 
-        if (isAnswerYes(getConfirmation(":: Proceed with installation? [Y/n] "))) {
+        if (confirmDefaultYes(getConfirmation(":: Proceed with installation? [Y/n] "))) {
             try {
                 virtualBox.install();
                 virtualBox.config();

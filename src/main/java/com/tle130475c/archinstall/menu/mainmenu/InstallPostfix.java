@@ -3,7 +3,7 @@ package com.tle130475c.archinstall.menu.mainmenu;
 import static com.tle130475c.archinstall.util.ConfigUtil.enableService;
 import static com.tle130475c.archinstall.util.ConfigUtil.startService;
 import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
-import static com.tle130475c.archinstall.util.IOUtil.isAnswerYes;
+import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
 import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
@@ -26,7 +26,7 @@ public class InstallPostfix implements Runnable {
         System.console().printf("Username: ");
         final String username = System.console().readLine();
 
-        if (isAnswerYes(getConfirmation(":: Proceed with installation? [Y/n] "))) {
+        if (confirmDefaultYes(getConfirmation(":: Proceed with installation? [Y/n] "))) {
             try {
                 installMainReposPkgs(List.of("postfix"), null);
 

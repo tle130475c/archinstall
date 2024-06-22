@@ -31,7 +31,7 @@ public final class IOUtil {
         return System.console().readLine();
     }
 
-    public static boolean isAnswerYes(String answer) {
+    public static boolean confirmDefaultYes(String answer) {
         Pattern pattern = Pattern.compile("y|yes", Pattern.CASE_INSENSITIVE);
         return pattern.matcher(answer).matches() || answer.isBlank();
     }

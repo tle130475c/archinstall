@@ -2,7 +2,7 @@ package com.tle130475c.archinstall.menu.mainmenu;
 
 import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultNo;
 import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
-import static com.tle130475c.archinstall.util.IOUtil.isAnswerYes;
+import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
 import static com.tle130475c.archinstall.util.PackageUtil.installFlatpakPackages;
 
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class ConfigureSystem implements Runnable {
     public void run() {
         getInfo();
 
-        if (isAnswerYes(getConfirmation(":: Proceed with configuration? [Y/n] "))) {
+        if (confirmDefaultYes(getConfirmation(":: Proceed with configuration? [Y/n] "))) {
             try {
                 if (desktopEnvironmentOptions.contains(0)) {
                     configureGNOME();

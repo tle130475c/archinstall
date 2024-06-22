@@ -2,7 +2,7 @@ package com.tle130475c.archinstall.menu.mainmenu;
 
 import static com.tle130475c.archinstall.util.DiskUtil.encryptDiskUsingLUKS;
 import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
-import static com.tle130475c.archinstall.util.IOUtil.isAnswerYes;
+import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
 import static com.tle130475c.archinstall.util.IOUtil.readPassword;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
@@ -28,7 +28,7 @@ public class EncryptDisk implements Runnable {
                     "Enter LUKS password: ",
                     "Re-enter LUKS password: ");
 
-            if (isAnswerYes(getConfirmation(":: Proceed with encryption? [Y/n] "))) {
+            if (confirmDefaultYes(getConfirmation(":: Proceed with encryption? [Y/n] "))) {
                 encryptDiskUsingLUKS(diskName, mapperName, password, username);
             }
         } catch (IOException | InterruptedException e) {
