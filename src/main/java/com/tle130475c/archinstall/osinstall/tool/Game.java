@@ -22,7 +22,7 @@ public class Game implements Installable {
     public int install() throws InterruptedException, IOException {
         installMainReposPkgsWithOptionalDeps(List.of("lutris", "wine", "winetricks"), chrootDir);
         installPkgs(List.of("discord", "steam", "steam-native-runtime", "gnome-chess", "gnuchess",
-                "kigo", "quadrapassel"), userAccount, chrootDir);
+                "kigo", "quadrapassel", "minecraft-launcher"), userAccount, chrootDir);
 
         return 0;
     }
