@@ -9,7 +9,6 @@ import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.isPackageInstalled;
 import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunChroot;
 import static com.tle130475c.archinstall.util.ShellUtil.runAppendOutputToFile;
-import static com.tle130475c.archinstall.util.ShellUtil.runGetOutput;
 import static com.tle130475c.archinstall.util.ShellUtil.runSetInput;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
