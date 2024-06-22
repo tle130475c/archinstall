@@ -9,7 +9,9 @@ import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.isPackageInstalled;
 import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunChroot;
 import static com.tle130475c.archinstall.util.ShellUtil.runAppendOutputToFile;
+import static com.tle130475c.archinstall.util.ShellUtil.runPipelineSilent;
 import static com.tle130475c.archinstall.util.ShellUtil.runSetInput;
+import static com.tle130475c.archinstall.util.ShellUtil.runSilent;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
 import java.io.FileNotFoundException;
@@ -44,17 +46,28 @@ public class BaseSystem {
         this.systemInfo = systemInfo;
     }
 
+    public void waitUntilKeyringIsInitialized() throws IOException, InterruptedException {
+        List<List<String>> commands = List.of(
+                List.of("systemctl", "status", "pacman-init.service"),
+                List.of("grep", ".*Finished initializes Pacman keyring.$"));
+
+        while (runPipelineSilent(commands) == 0) {
+            System.console().printf("Waiting for keyring to be initialized...%n");
+            TimeUnit.SECONDS.sleep(1);
+        }
+
+        System.console().printf("Keyring successfully initialized!%n");
+    }
+
     public void disableAutoGenerateMirrors() throws InterruptedException, IOException {
         stopService("reflector.service", null);
         stopService("reflector.timer", null);
         disableService("reflector.service", null);
         disableService("reflector.timer", null);
-        TimeUnit.SECONDS.sleep(10);
     }
 
     public void enableNetworkTimeSynchronization() throws InterruptedException, IOException {
         runVerbose(List.of("timedatectl", "set-ntp", "true"));
-        TimeUnit.SECONDS.sleep(10);
     }
 
     public void configureMirrors() throws FileNotFoundException {
@@ -266,6 +279,7 @@ public class BaseSystem {
         enableNetworkTimeSynchronization();
         configureMirrors();
         prepareDisk();
+        waitUntilKeyringIsInitialized();
         installEssentialPackages();
         disableMakePkgDebug();
         configureFstab();

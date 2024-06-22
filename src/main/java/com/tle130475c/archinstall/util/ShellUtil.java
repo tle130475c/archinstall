@@ -14,6 +14,14 @@ public final class ShellUtil {
     private ShellUtil() {
     }
 
+    public static int runPipelineSilent(List<List<String>> commands) throws IOException, InterruptedException {
+        List<ProcessBuilder> builders = commands.stream().map(ProcessBuilder::new).toList();
+        List<Process> processes = ProcessBuilder.startPipeline(builders);
+        processes.getLast().waitFor();
+
+        return processes.getLast().exitValue();
+    }
+
     public static int runSilent(List<String> command) throws IOException, InterruptedException {
         Process process = new ProcessBuilder(command).start();
         process.waitFor();
