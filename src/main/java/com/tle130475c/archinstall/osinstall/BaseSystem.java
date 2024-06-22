@@ -49,7 +49,7 @@ public class BaseSystem {
     public void waitUntilKeyringIsInitialized() throws IOException, InterruptedException {
         List<List<String>> commands = List.of(
                 List.of("systemctl", "status", "pacman-init.service"),
-                List.of("grep", ".*Finished initializes Pacman keyring.$"));
+                List.of("grep", "-e", ".*Finished Initializes Pacman keyring.$", "-e", "exited"));
 
         while (runPipelineSilent(commands) == 0) {
             System.console().printf("Waiting for keyring to be initialized...%n");
