@@ -49,11 +49,11 @@ public class BaseSystem {
     public void waitUntilKeyringIsInitialized() throws IOException, InterruptedException {
         System.console().printf("Waiting for keyring to be initialized...%n");
 
-        while (isServiceStarted("archlinux-keyring-wkd-sync.timer", null)) {
+        while (!isServiceStarted("archlinux-keyring-wkd-sync.timer", null)) {
             TimeUnit.SECONDS.sleep(1);
         }
 
-        while (List.of("dead", "failed", "exited").contains(
+        while (!List.of("dead", "failed", "exited").contains(
                 getServiceState("archlinux-keyring-wkd-sync.service", null))) {
             TimeUnit.SECONDS.sleep(1);
         }
