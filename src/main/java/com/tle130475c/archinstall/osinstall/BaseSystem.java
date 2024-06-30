@@ -4,14 +4,14 @@ import static com.tle130475c.archinstall.util.ConfigUtil.backupFile;
 import static com.tle130475c.archinstall.util.ConfigUtil.disableService;
 import static com.tle130475c.archinstall.util.ConfigUtil.enableService;
 import static com.tle130475c.archinstall.util.ConfigUtil.findAndReplaceInLine;
+import static com.tle130475c.archinstall.util.ConfigUtil.getServiceState;
+import static com.tle130475c.archinstall.util.ConfigUtil.isServiceStarted;
 import static com.tle130475c.archinstall.util.ConfigUtil.stopService;
 import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.isPackageInstalled;
 import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunChroot;
 import static com.tle130475c.archinstall.util.ShellUtil.runAppendOutputToFile;
-import static com.tle130475c.archinstall.util.ShellUtil.runPipelineSilent;
 import static com.tle130475c.archinstall.util.ShellUtil.runSetInput;
-import static com.tle130475c.archinstall.util.ShellUtil.runSilent;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
 import java.io.FileNotFoundException;
@@ -47,12 +47,14 @@ public class BaseSystem {
     }
 
     public void waitUntilKeyringIsInitialized() throws IOException, InterruptedException {
-        List<List<String>> commands = List.of(
-                List.of("systemctl", "status", "pacman-init.service"),
-                List.of("grep", "-e", ".*Finished Initializes Pacman keyring.$", "-e", "exited"));
+        System.console().printf("Waiting for keyring to be initialized...%n");
 
-        while (runPipelineSilent(commands) == 0) {
-            System.console().printf("Waiting for keyring to be initialized...%n");
+        while (isServiceStarted("archlinux-keyring-wkd-sync.timer", null)) {
+            TimeUnit.SECONDS.sleep(1);
+        }
+
+        while (List.of("dead", "failed", "exited").contains(
+                getServiceState("archlinux-keyring-wkd-sync.service", null))) {
             TimeUnit.SECONDS.sleep(1);
         }
 

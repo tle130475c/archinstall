@@ -2,6 +2,7 @@ package com.tle130475c.archinstall.util;
 
 import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunChroot;
 import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunSudo;
+import static com.tle130475c.archinstall.util.ShellUtil.runGetOutput;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
 import java.io.IOException;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public final class ConfigUtil {
+    private static final String SYSTEMCTL = "systemctl";
+
     private ConfigUtil() {
     }
 
@@ -54,6 +57,20 @@ public final class ConfigUtil {
         }
     }
 
+    public static boolean isServiceStarted(String service, String chrootDir) throws IOException {
+        List<String> command = List.of(SYSTEMCTL, "show", "--property=ActiveEnterTimestamp", "--no-pager", service);
+        String output = runGetOutput(
+                chrootDir != null ? getCommandRunChroot(command, chrootDir) : command)
+                .replace("ActiveEnterTimestamp=", "");
+
+        return !output.isBlank();
+    }
+
+    public static String getServiceState(String service, String chrootDir) throws IOException {
+        List<String> command = List.of(SYSTEMCTL, "show", "--no-pager", "-p", "SubState", "--value", service);
+        return runGetOutput(chrootDir != null ? getCommandRunChroot(command, chrootDir) : command);
+    }
+
     public static int startService(String service, String chrootDir) throws InterruptedException, IOException {
         return manageSystemService("start", service, chrootDir);
     }
@@ -76,7 +93,7 @@ public final class ConfigUtil {
 
     private static int manageSystemService(String action, String service, String chrootDir)
             throws InterruptedException, IOException {
-        List<String> command = List.of("systemctl", action, service);
+        List<String> command = List.of(SYSTEMCTL, action, service);
         return runVerbose(chrootDir != null ? getCommandRunChroot(command, chrootDir) : getCommandRunSudo(command));
     }
 }
