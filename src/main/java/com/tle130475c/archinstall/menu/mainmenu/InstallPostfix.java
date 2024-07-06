@@ -2,8 +2,8 @@ package com.tle130475c.archinstall.menu.mainmenu;
 
 import static com.tle130475c.archinstall.util.ConfigUtil.enableService;
 import static com.tle130475c.archinstall.util.ConfigUtil.startService;
-import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
 import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
+import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
 import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
@@ -16,6 +16,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.xml.sax.SAXException;
+
+import com.tle130475c.archinstall.util.ConfigReader;
+
 public class InstallPostfix implements Runnable {
     private static final String ETC_POSTFIX_VIRTUAL = "/etc/postfix/virtual";
     private static final String ETC_POSTFIX_MAIN_CF = "/etc/postfix/main.cf";
@@ -23,8 +30,15 @@ public class InstallPostfix implements Runnable {
 
     @Override
     public void run() {
-        System.console().printf("Username: ");
-        final String username = System.console().readLine();
+        String username = null;
+
+        try {
+            ConfigReader configReader = new ConfigReader("install-info.xml");
+            username = configReader.getUsername();
+        } catch (SAXException | IOException | ParserConfigurationException | XPathExpressionException e) {
+            System.console().printf("Username: ");
+            username = System.console().readLine();
+        }
 
         if (confirmDefaultYes(getConfirmation(":: Proceed with installation? [Y/n] "))) {
             try {
