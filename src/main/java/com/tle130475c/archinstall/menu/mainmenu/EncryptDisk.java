@@ -1,9 +1,10 @@
 package com.tle130475c.archinstall.menu.mainmenu;
 
 import static com.tle130475c.archinstall.util.DiskUtil.encryptDiskUsingLUKS;
-import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
 import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
+import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
 import static com.tle130475c.archinstall.util.IOUtil.readPassword;
+import static com.tle130475c.archinstall.util.IOUtil.readUsername;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
 import java.io.IOException;
@@ -15,8 +16,7 @@ public class EncryptDisk implements Runnable {
         try {
             runVerbose(List.of("lsblk"));
 
-            System.console().printf("Enter username: ");
-            String username = System.console().readLine();
+            String username = readUsername("Enter username: ");
 
             System.console().printf("Enter disk name: ");
             String diskName = System.console().readLine();
