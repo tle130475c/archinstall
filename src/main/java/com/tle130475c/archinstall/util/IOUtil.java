@@ -1,9 +1,29 @@
 package com.tle130475c.archinstall.util;
 
+import java.io.IOException;
 import java.util.regex.Pattern;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.xml.sax.SAXException;
 
 public final class IOUtil {
     private IOUtil() {
+    }
+
+    public static String readUsername(String promptMessage) {
+        String username = null;
+
+        try {
+            ConfigReader configReader = new ConfigReader("install-info.xml");
+            username = configReader.getUsername();
+        } catch (SAXException | IOException | ParserConfigurationException | XPathExpressionException e) {
+            System.console().printf(promptMessage);
+            username = System.console().readLine();
+        }
+
+        return username;
     }
 
     public static String readPassword(String firstPrompt, String secondPrompt) {
