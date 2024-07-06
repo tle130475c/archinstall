@@ -28,7 +28,7 @@ public class KDEPlasma implements Installable {
                 "plasma-pa", "plasma-systemmonitor", "powerdevil", "sddm-kcm", "okular", "kcalc", "yakuake", "cryfs",
                 "plasma-vault", "discover", "breeze-gtk", "kde-gtk-config", "gnome-keyring", "krusader",
                 "kwalletmanager", "krename", "khelpcenter", "gtk2", "xdg-desktop-portal-kde", "ktorrent",
-                "gnome-disk-utility", "power-profiles-daemon"), chrootDir);
+                "gnome-disk-utility", "power-profiles-daemon", "plasma-workspace-wallpapers"), chrootDir);
         installFcitx5Bamboo();
 
         return 0;
