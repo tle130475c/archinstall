@@ -169,10 +169,10 @@ public final class DiskUtil {
             String username)
             throws InterruptedException, IOException {
         eraseDisk("/dev/%s".formatted(diskName));
-        return createEncryptPartitionUsingLUKS(diskName, 1, luksMapperName, luksPassword, username);
+        return createEncryptedPartitionUsingLUKS(diskName, 1, luksMapperName, luksPassword, username);
     }
 
-    public static Partition createEncryptPartitionUsingLUKS(String diskName, int partitionNumber,
+    public static Partition createEncryptedPartitionUsingLUKS(String diskName, int partitionNumber,
             String luksMapperName, String luksPassword, String username) throws InterruptedException, IOException {
         final String LUKS_MAPPER_DEVICE_PATH = "/dev/mapper/%s".formatted(luksMapperName);
         final String tmpMountDir = "/tmp/%s".formatted(luksMapperName);
