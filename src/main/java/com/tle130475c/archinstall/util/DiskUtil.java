@@ -168,16 +168,20 @@ public final class DiskUtil {
     public static Partition encryptDiskUsingLUKS(String diskName, String luksMapperName, String luksPassword,
             String username)
             throws InterruptedException, IOException {
+        eraseDisk("/dev/%s".formatted(diskName));
+        return encryptPartitionUsingLUKS(
+                createLinuxLUKSPartition(diskName, 1, null), luksMapperName, luksPassword, username);
+    }
+
+    public static Partition encryptPartitionUsingLUKS(Partition partition, String luksMapperName, String luksPassword,
+            String username) throws InterruptedException, IOException {
         final String LUKS_MAPPER_DEVICE_PATH = "/dev/mapper/%s".formatted(luksMapperName);
         final String tmpMountDir = "/tmp/%s".formatted(luksMapperName);
 
-        eraseDisk("/dev/%s".formatted(diskName));
+        wipeDeviceSignature(partition.getPath());
 
-        Partition linuxLUKSPartition = createLinuxLUKSPartition(diskName, 1, null);
-        wipeDeviceSignature(linuxLUKSPartition.getPath());
-
-        createLUKSContainer(linuxLUKSPartition, luksPassword);
-        openLUKSContainer(linuxLUKSPartition, luksMapperName, luksPassword);
+        createLUKSContainer(partition, luksPassword);
+        openLUKSContainer(partition, luksMapperName, luksPassword);
 
         wipeDeviceSignature(LUKS_MAPPER_DEVICE_PATH);
         formatEXT4(LUKS_MAPPER_DEVICE_PATH, luksMapperName);
@@ -189,7 +193,7 @@ public final class DiskUtil {
 
         runVerbose(List.of(CRYPTSETUP, "close", luksMapperName));
 
-        return linuxLUKSPartition;
+        return partition;
     }
 
     public static void mount(String pathToDevice, String mountPoint) throws IOException, InterruptedException {
