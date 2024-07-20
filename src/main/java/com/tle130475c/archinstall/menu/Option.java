@@ -42,6 +42,6 @@ public class Option {
 
     @Override
     public String toString() {
-        return "%d. %s".formatted(optionNumber, description) + (isMarked ? " " + CHECK_MARK : "");
+        return "%02d. %s".formatted(optionNumber, description) + (isMarked ? " " + CHECK_MARK : "");
     }
 }
