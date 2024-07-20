@@ -42,6 +42,7 @@ public final class DiskUtil {
                 "-t", "0:%s".formatted(partition.getType()),
                 "-c", "0:%s".formatted(partition.getGptName()),
                 partition.getPathToDisk()));
+        runVerbose(List.of("partprobe"));
 
         return partition;
     }
