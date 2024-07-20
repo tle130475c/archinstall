@@ -169,14 +169,15 @@ public final class DiskUtil {
             String username)
             throws InterruptedException, IOException {
         eraseDisk("/dev/%s".formatted(diskName));
-        return createEncryptedPartitionUsingLUKS(diskName, 1, luksMapperName, luksPassword, username);
+
+        Partition partition = createLinuxLUKSPartition(diskName, 1, null);
+        return encryptedPartitionUsingLUKS(partition, luksMapperName, luksPassword, username);
     }
 
-    public static Partition createEncryptedPartitionUsingLUKS(String diskName, int partitionNumber,
-            String luksMapperName, String luksPassword, String username) throws InterruptedException, IOException {
+    public static Partition encryptedPartitionUsingLUKS(Partition partition, String luksMapperName, String luksPassword,
+            String username) throws InterruptedException, IOException {
         final String LUKS_MAPPER_DEVICE_PATH = "/dev/mapper/%s".formatted(luksMapperName);
         final String tmpMountDir = "/tmp/%s".formatted(luksMapperName);
-        Partition partition = createLinuxLUKSPartition(diskName, partitionNumber, null);
 
         wipeDeviceSignature(partition.getPath());
 

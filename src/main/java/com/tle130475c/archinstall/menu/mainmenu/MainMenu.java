@@ -13,6 +13,7 @@ public class MainMenu extends SingleChoiceMenu {
         addOption(new Option("Enable DNSCryptProxy (installed system, sudo)", new EnableDNSCryptProxy(), false));
         addOption(new Option("Disable DNSCryptProxy (installed system, sudo)", new DisableDNSCryptProxy(), false));
         addOption(new Option("Encrypt Disk (sudo)", new EncryptDisk(), false));
+        addOption(new Option("Encrypted Partition (sudo)", new EncryptedPartition(), false));
         addOption(new Option("Erase Disk (sudo)", new EraseDisk(), false));
         addOption(new Option("Install Yay AUR Helper (installed system)", new InstallYayAURHelper(), false));
         addOption(new Option("Install fcitx5-bamboo (installed system)", new InstallFcitx5Bamboo(), false));
