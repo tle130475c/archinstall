@@ -166,6 +166,13 @@ public final class DiskUtil {
         return partition;
     }
 
+    public static Partition createEncryptedPartitionUsingLUKS(String diskName, int partitionNumber,
+            String luksMapperName,
+            String luksPassword, String username) throws InterruptedException, IOException {
+        Partition partition = createLinuxLUKSPartition(diskName, partitionNumber, null);
+        return encryptedPartitionUsingLUKS(partition, luksMapperName, luksPassword, username);
+    }
+
     public static Partition encryptDiskUsingLUKS(String diskName, String luksMapperName, String luksPassword,
             String username)
             throws InterruptedException, IOException {
