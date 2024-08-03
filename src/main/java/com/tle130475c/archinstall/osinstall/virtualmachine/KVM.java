@@ -25,8 +25,9 @@ public class KVM implements Installable {
 
     @Override
     public int install() throws InterruptedException, IOException {
-        installMainReposPkgs(List.of("virt-manager", "qemu", "vde2", "dnsmasq", "bridge-utils", "virt-viewer",
-                "dmidecode", "edk2-ovmf", "iptables-nft", "swtpm", "qemu-hw-usb-host"), chrootDir);
+        installMainReposPkgs(List.of("virt-manager", "qemu-full", "vde2", "dnsmasq", "bridge-utils", "virt-viewer",
+                "dmidecode", "edk2-ovmf", "iptables-nft", "swtpm", "qemu-hw-usb-host", "qemu-block-gluster",
+                "qemu-block-iscsi"), chrootDir);
 
         return 0;
     }
