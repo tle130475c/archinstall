@@ -187,12 +187,16 @@ public class GNOME implements Installable {
     }
 
     public List<GNOMEShortcut> readShortcutsFromFile(String fileName) {
-        try (Stream<String> rawData = new BufferedReader(new InputStreamReader(
-                Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))).lines()) {
+        try (var reader = new InputStreamReader(
+                Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))) {
+            Stream<String> rawData = new BufferedReader(reader).lines();
             return rawData.map(line -> {
                 String[] parts = line.split(",");
                 return new GNOMEShortcut(parts[0].trim(), parts[1].trim(), parts[2].trim(), parts[3].trim());
             }).toList();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return List.of();
         }
     }
 

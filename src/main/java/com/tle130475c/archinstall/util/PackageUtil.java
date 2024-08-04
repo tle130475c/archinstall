@@ -217,9 +217,12 @@ public final class PackageUtil {
     }
 
     private static List<String> getPackagesFromFile(String fileName) {
-        try (Stream<String> rawData = new BufferedReader(new InputStreamReader(
-                Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))).lines()) {
-            return rawData.toList();
+        try (var reader = new InputStreamReader(
+                Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))) {
+            return new BufferedReader(reader).lines().toList();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return List.of();
         }
     }
 }
