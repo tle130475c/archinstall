@@ -22,7 +22,7 @@ public class Docker implements Installable {
 
     @Override
     public int install() throws InterruptedException, IOException {
-        installMainReposPkgs(List.of("docker", "docker-compose", "minikube", "kubectl"), chrootDir);
+        installMainReposPkgs(List.of("docker", "docker-compose", "docker-buildx", "minikube", "kubectl"), chrootDir);
         return 0;
     }
 
