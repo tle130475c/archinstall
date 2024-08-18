@@ -17,7 +17,7 @@ public class Font implements Installable {
     @Override
     public int install() throws InterruptedException, IOException {
         installMainReposPkgs(List.of("ttf-dejavu", "ttf-liberation", "noto-fonts-emoji", "ttf-cascadia-code",
-                "ttf-fira-code", "ttf-roboto-mono", "ttf-hack"), chrootDir);
+                "ttf-fira-code", "ttf-roboto-mono", "ttf-hack", "noto-fonts-cjk"), chrootDir);
 
         return 0;
     }
