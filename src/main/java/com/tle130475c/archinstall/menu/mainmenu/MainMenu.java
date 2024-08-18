@@ -14,7 +14,7 @@ public class MainMenu extends SingleChoiceMenu {
         addOption(new Option("Disable DNSCryptProxy (installed system, sudo)", new DisableDNSCryptProxy(), false));
         addOption(new Option("Encrypt Disk (sudo)", new EncryptDisk(), false));
         addOption(new Option("Create Linux LUKS Partition (sudo)", new CreateLinuxLUKSPartition(), false));
-        addOption(new Option("Encrypted Partition (sudo)", new EncryptedPartition(), false));
+        addOption(new Option("Encrypt Partition (sudo)", new EncryptedPartition(), false));
         addOption(new Option("Create Encrypted Partition Using LUKS (sudo)",
                 new CreateEncryptedPartitionUsingLUKS(), false));
         addOption(new Option("Erase Disk (sudo)", new EraseDisk(), false));
