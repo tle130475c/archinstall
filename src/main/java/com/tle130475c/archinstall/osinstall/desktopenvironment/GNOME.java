@@ -43,7 +43,7 @@ public class GNOME implements Installable {
     @Override
     public int install() throws InterruptedException, IOException {
         installMainReposPkgs(List.of("xorg-server", "baobab", "eog", "evince", "file-roller", "gdm", "gnome-calculator",
-                "gnome-calendar", "gnome-characters", "gnome-clocks", "gnome-color-manager", "gnome-control-center",
+                "gnome-calendar", "gnome-clocks", "gnome-color-manager", "gnome-control-center",
                 "gnome-font-viewer", "gnome-keyring", "gnome-screenshot", "gnome-shell-extensions",
                 "gnome-system-monitor", "gnome-terminal", "gnome-themes-extra", "gnome-video-effects", "nautilus",
                 "sushi", "gnome-tweaks", "totem", "xdg-user-dirs-gtk", "gnome-usage", "endeavour", "dconf-editor",
