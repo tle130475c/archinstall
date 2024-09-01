@@ -10,6 +10,7 @@ import com.tle130475c.archinstall.osinstall.programming.Java;
 import com.tle130475c.archinstall.osinstall.programming.JavaScript;
 import com.tle130475c.archinstall.osinstall.programming.Neo4J;
 import com.tle130475c.archinstall.osinstall.programming.Python;
+import com.tle130475c.archinstall.osinstall.programming.Rust;
 import com.tle130475c.archinstall.systeminfo.UserAccount;
 
 public class ProgrammingMenu extends MultiChoiceMenu {
@@ -25,5 +26,6 @@ public class ProgrammingMenu extends MultiChoiceMenu {
         addOption(new Option("JavaScript", new JavaScript(chrootDir, userAccount), false));
         addOption(new Option("Python", new Python(chrootDir), false));
         addOption(new Option("Neo4J", new Neo4J(chrootDir, userAccount), false));
+        addOption(new Option("Rust", new Rust(chrootDir), false));
     }
 }
