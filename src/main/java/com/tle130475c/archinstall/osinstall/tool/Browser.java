@@ -20,7 +20,7 @@ public class Browser implements Installable {
     @Override
     public int install() throws InterruptedException, IOException {
         installPkgs(List.of("torbrowser-launcher", "firefox-developer-edition",
-                "google-chrome", "chromium", "microsoft-edge-stable-bin"),
+                "google-chrome", "chromium", "microsoft-edge-stable-bin", "vdhcoapp"),
                 userAccount, chrootDir);
 
         return 0;
