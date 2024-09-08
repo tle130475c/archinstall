@@ -23,7 +23,7 @@ public class CoreTool implements Installable {
         installPkgs(List.of("keepassxc", "expect", "pacman-contrib", "dosfstools", "p7zip", "unarchiver",
                 "bash-completion", "flatpak", "tree", "archiso", "rclone", "rsync", "lm_sensors",
                 "ntfs-3g", "gparted", "exfatprogs", "pdftk", "youtube-dl", "ufw", "ufw-extras", "filezilla",
-                "texlive", "texlive-lang", "krusader", "gptfdisk", "ventoy-bin", 
+                "texlive", "texlive-lang", "krusader", "gptfdisk", "ventoy-bin", "kio5-extras",
                 "gnome-characters"), userAccount, chrootDir);
 
         return 0;
