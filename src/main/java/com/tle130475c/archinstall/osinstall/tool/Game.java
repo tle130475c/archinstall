@@ -1,6 +1,5 @@
 package com.tle130475c.archinstall.osinstall.tool;
 
-import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgsWithOptionalDeps;
 import static com.tle130475c.archinstall.util.PackageUtil.installPkgs;
 
 import java.io.IOException;
