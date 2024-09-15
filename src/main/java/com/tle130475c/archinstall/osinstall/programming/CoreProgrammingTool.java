@@ -21,7 +21,7 @@ public class CoreProgrammingTool implements Installable {
     public int install() throws InterruptedException, IOException {
         installPkgs(List.of("git", "github-cli", "kdiff3", "valgrind", "kruler", "sublime-merge", "sublime-text",
                 "visual-studio-code-bin", "postman-bin", "emacs-wayland", "gvim", "bash-language-server",
-                "kate", "dbeaver", "dbeaver-plugin-office", "dbeaver-plugin-svg-format"),
+                "kate", "dbeaver", "dbeaver-plugin-office", "dbeaver-plugin-svg-format", "powershell-bin"),
                 userAccount, chrootDir);
 
         return 0;
