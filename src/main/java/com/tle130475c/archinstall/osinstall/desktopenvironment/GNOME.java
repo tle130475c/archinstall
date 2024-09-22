@@ -61,6 +61,7 @@ public class GNOME implements Installable {
     @Override
     public int config() throws IOException, InterruptedException {
         enableService("gdm", chrootDir);
+        enableService("bluetooth", chrootDir);
         return 0;
     }
 

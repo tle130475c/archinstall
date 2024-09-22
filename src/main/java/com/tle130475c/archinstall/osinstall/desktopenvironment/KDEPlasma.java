@@ -37,6 +37,7 @@ public class KDEPlasma implements Installable {
     @Override
     public int config() throws IOException, InterruptedException {
         enableService("sddm", chrootDir);
+        enableService("bluetooth", chrootDir);
         return 0;
     }
 
