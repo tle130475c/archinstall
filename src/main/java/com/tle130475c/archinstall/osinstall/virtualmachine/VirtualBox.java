@@ -1,7 +1,7 @@
 package com.tle130475c.archinstall.osinstall.virtualmachine;
 
 import static com.tle130475c.archinstall.util.ConfigUtil.addUserToGroup;
-import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
+import static com.tle130475c.archinstall.util.PackageUtil.installPkgs;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,7 +20,8 @@ public class VirtualBox implements Installable {
 
     @Override
     public int install() throws InterruptedException, IOException {
-        installMainReposPkgs(List.of("virtualbox", "virtualbox-guest-iso", "virtualbox-host-dkms"), chrootDir);
+        installPkgs(List.of("virtualbox", "virtualbox-guest-iso", "virtualbox-host-dkms", "virtualbox-ext-oracle"),
+                userAccount, chrootDir);
         return 0;
     }
 
