@@ -65,7 +65,7 @@ public class ConfigReader {
         String password = xmlReader.getValue("//partitionLayout/password");
         Partition windowsPartition = new Partition(diskName,
                 Integer.parseInt(xmlReader.getValue("//partitionLayout/windowsPartNumber")));
-        int option = Integer.parseInt(xmlReader.getValue("//partitionLayout/option"));
+        int option = Integer.parseInt(xmlReader.getValue("//partitionLayout/options/option/value"));
 
         return new PartitionLayoutInfo(diskName, swapSize, rootSize, password, windowsPartition, option);
     }
