@@ -90,6 +90,16 @@ public class ConfigReader {
         return options;
     }
 
+    public Set<Integer> getVirtualMachineOptions() throws NumberFormatException, XPathExpressionException {
+        Set<Integer> options = new HashSet<>();
+        for (int i = 0; i < Integer.parseInt(xmlReader.getValue("count(//virtualMachines/virtualMachine)")); i++) {
+            options.add(Integer.parseInt(
+                    xmlReader.getValue("//virtualMachines/virtualMachine[%d]/option".formatted(i + 1))));
+        }
+
+        return options;
+    }
+
     public WirelessNetwork getWirelessNetwork() throws XPathExpressionException {
         String ssid = xmlReader.getValue("//wirelessNetwork/ssid");
         String password = xmlReader.getValue("//wirelessNetwork/password");

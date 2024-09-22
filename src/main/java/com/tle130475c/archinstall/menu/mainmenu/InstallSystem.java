@@ -138,7 +138,7 @@ public class InstallSystem implements Runnable {
         driverMenu.setOptions(configReader.getDriverOptions());
         programmingMenu.selectAll();
         toolMenu.selectAll();
-        virtualMachineMenu.selectAll();
+        virtualMachineMenu.setOptions(configReader.getVirtualMachineOptions());
     }
 
     private void getInstallSummary() {
