@@ -16,7 +16,7 @@ public class GTKProgrammingTool implements Installable {
 
     @Override
     public int install() throws InterruptedException, IOException {
-        installMainReposPkgs(List.of("devhelp", "glade", "gnome-builder", "gnome-code-assistance", "gnome-devel-docs"),
+        installMainReposPkgs(List.of("devhelp", "glade", "gnome-builder", "gnome-devel-docs"),
                 chrootDir);
 
         return 0;
