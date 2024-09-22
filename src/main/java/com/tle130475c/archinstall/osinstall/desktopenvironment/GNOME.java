@@ -148,6 +148,10 @@ public class GNOME implements Installable {
 
         // set clock format 24-hour
         gSettingsSet("org.gnome.desktop.interface", "clock-format", "24h");
+
+        // disable automount for removable media
+        gSettingsSet("org.gnome.desktop.media-handling", "automount", "false");
+        gSettingsSet("org.gnome.desktop.media-handling", "automount-open", "false");
     }
 
     public void createCustomShortcut(List<GNOMEShortcut> shortcuts) throws IOException, InterruptedException {
