@@ -164,10 +164,16 @@ public class InstallSystem implements Runnable {
         }
 
         baseSystem.install();
+
+        BaseSystem.allowUserInWheelGroupExecuteAnyCommandWithoutPassword();
+
         desktopEnvironmentMenu.doAction();
         driverMenu.doAction();
         programmingMenu.doAction();
         toolMenu.doAction();
         virtualMachineMenu.doAction();
+
+        BaseSystem.disallowUserInWheelGroupExecuteAnyCommandWithoutPassword();
+        BaseSystem.allowUserInWheelGroupExecuteAnyCommand();
     }
 }

@@ -91,6 +91,38 @@ public final class ConfigUtil {
         return manageSystemService("restart", service, chrootDir);
     }
 
+    public static void uncommentLine(String path, String linePattern) throws IOException {
+        backupFile(path);
+
+        List<String> lines = Files.readAllLines(Paths.get(path));
+        int lineNumber = lines.indexOf(linePattern);
+
+        if (lineNumber != -1) {
+            lines.set(lineNumber, lines.get(lineNumber).replace("# ", ""));
+            try (var writer = new PrintWriter(path)) {
+                for (String line : lines) {
+                    writer.println(line);
+                }
+            }
+        }
+    }
+
+    public static void commentLine(String path, String linePattern) throws IOException {
+        backupFile(path);
+
+        List<String> lines = Files.readAllLines(Paths.get(path));
+        int lineNumber = lines.indexOf(linePattern);
+
+        if (lineNumber != -1) {
+            lines.set(lineNumber, "# " + lines.get(lineNumber));
+            try (var writer = new PrintWriter(path)) {
+                for (String line : lines) {
+                    writer.println(line);
+                }
+            }
+        }
+    }
+
     private static int manageSystemService(String action, String service, String chrootDir)
             throws InterruptedException, IOException {
         List<String> command = List.of(SYSTEMCTL, action, service);

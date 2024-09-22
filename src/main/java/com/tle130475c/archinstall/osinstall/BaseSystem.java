@@ -1,12 +1,14 @@
 package com.tle130475c.archinstall.osinstall;
 
 import static com.tle130475c.archinstall.util.ConfigUtil.backupFile;
+import static com.tle130475c.archinstall.util.ConfigUtil.commentLine;
 import static com.tle130475c.archinstall.util.ConfigUtil.disableService;
 import static com.tle130475c.archinstall.util.ConfigUtil.enableService;
 import static com.tle130475c.archinstall.util.ConfigUtil.findAndReplaceInLine;
 import static com.tle130475c.archinstall.util.ConfigUtil.getServiceState;
 import static com.tle130475c.archinstall.util.ConfigUtil.isServiceStarted;
 import static com.tle130475c.archinstall.util.ConfigUtil.stopService;
+import static com.tle130475c.archinstall.util.ConfigUtil.uncommentLine;
 import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.isPackageInstalled;
 import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunChroot;
@@ -182,19 +184,20 @@ public class BaseSystem {
                 List.of(userAccount.getPassword(), userAccount.getPassword()));
     }
 
-    public void allowUserInWheelGroupExecuteAnyCommand() throws IOException {
-        backupFile(PATH_TO_SUDOERS);
+    public static void allowUserInWheelGroupExecuteAnyCommand() throws IOException {
+        uncommentLine(PATH_TO_SUDOERS, "# %wheel ALL=(ALL:ALL) ALL");
+    }
 
-        // comment out lines contain the config
-        List<String> lines = Files.readAllLines(Paths.get(PATH_TO_SUDOERS));
-        int lineNumber = lines.indexOf("# %wheel ALL=(ALL:ALL) ALL");
-        lines.set(lineNumber, lines.get(lineNumber).replace("# ", ""));
+    public static void disallowUserInWheelGroupExecuteAnyCommand() throws IOException {
+        commentLine(PATH_TO_SUDOERS, "%wheel ALL=(ALL:ALL) ALL");
+    }
 
-        try (var writer = new PrintWriter(PATH_TO_SUDOERS)) {
-            for (String line : lines) {
-                writer.println(line);
-            }
-        }
+    public static void allowUserInWheelGroupExecuteAnyCommandWithoutPassword() throws IOException {
+        uncommentLine(PATH_TO_SUDOERS, "# %wheel ALL=(ALL:ALL) NOPASSWD: ALL");
+    }
+
+    public static void disallowUserInWheelGroupExecuteAnyCommandWithoutPassword() throws IOException {
+        commentLine(PATH_TO_SUDOERS, "%wheel ALL=(ALL:ALL) NOPASSWD: ALL");
     }
 
     public void disableSudoPasswordPromptTimeout() throws IOException {
@@ -291,7 +294,6 @@ public class BaseSystem {
         configureNetwork();
         setRootPassword();
         addNormalUser();
-        allowUserInWheelGroupExecuteAnyCommand();
         disableSudoPasswordPromptTimeout();
         disableSudoTimestampTimeout();
         configureSystemdBootloader();

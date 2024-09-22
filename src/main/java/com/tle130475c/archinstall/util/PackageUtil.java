@@ -109,10 +109,11 @@ public final class PackageUtil {
             return 0;
         }
 
-        List<String> installAURPkgCmd = List.of("bash", "-c", ("printf \"%s\" | sudo -S -i;"
-                + "export HOME=\"/home/%s\";"
-                + "yay -Syu --needed --noconfirm " + String.join(" ", packages))
-                .formatted(userAccount.getPassword(), userAccount.getUsername()));
+        List<String> installAURPkgCmd = List.of("bash", "-c", """
+                export HOME="/home/%s";
+                yay -Syu --needed --noconfirm %s
+                """
+                .formatted(userAccount.getUsername(), String.join(" ", packages)));
         return ShellUtil
                 .runVerbose(chrootDir != null
                         ? getCommandRunChrootAsUser(installAURPkgCmd, userAccount.getUsername(), chrootDir)
@@ -163,19 +164,15 @@ public final class PackageUtil {
                 ? getCommandRunChrootAsUser(extractPkgCmd, userAccount.getUsername(), chrootDir)
                 : extractPkgCmd);
 
-        // make and install package
-        List<String> installPkgCmd = List.of("bash", "-c", ("printf \"%s\" | sudo -S -i;"
-                + "export GOCACHE=\"/home/%s/.cache/go-build\";"
-                + "cd /home/%s/tmp/yay;"
-                + "makepkg -sri --noconfirm").formatted(userAccount.getPassword(), userAccount.getUsername(),
-                        userAccount.getUsername()));
-        List<String> installPkgCmdNonChroot = List.of("bash", "-c",
-                "export GOCACHE=\"/home/%s/.cache/go-build\";".formatted(userAccount.getUsername())
-                        + "cd /home/%s/tmp/yay;".formatted(userAccount.getUsername())
-                        + "makepkg -sri --noconfirm");
+        List<String> installPkgCmd = List.of("bash", "-c", """
+                export GOCACHE="/home/%s/.cache/go-build";
+                cd /home/%s/tmp/yay;
+                makepkg -sri --noconfirm
+                """
+                .formatted(userAccount.getUsername(), userAccount.getUsername()));
         runVerbose(chrootDir != null
                 ? getCommandRunChrootAsUser(installPkgCmd, userAccount.getUsername(), chrootDir)
-                : installPkgCmdNonChroot);
+                : installPkgCmd);
     }
 
     public static int installPackageFromFile(String filename, String chrootDir)
