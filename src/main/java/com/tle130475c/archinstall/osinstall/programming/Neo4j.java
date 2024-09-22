@@ -8,11 +8,11 @@ import java.util.List;
 import com.tle130475c.archinstall.osinstall.Installable;
 import com.tle130475c.archinstall.systeminfo.UserAccount;
 
-public class Neo4J implements Installable {
+public class Neo4j implements Installable {
     private final String chrootDir;
     private final UserAccount userAccount;
 
-    public Neo4J(String chrootDir, UserAccount userAccount) {
+    public Neo4j(String chrootDir, UserAccount userAccount) {
         this.chrootDir = chrootDir;
         this.userAccount = userAccount;
     }
