@@ -1,7 +1,7 @@
 package com.tle130475c.archinstall.menu.mainmenu;
 
-import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
 import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
+import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
 import static com.tle130475c.archinstall.util.IOUtil.readPassword;
 
 import java.io.IOException;
@@ -137,7 +137,7 @@ public class InstallSystem implements Runnable {
         desktopEnvironmentMenu.setOptions(configReader.getDesktopEnvironmentOptions());
         driverMenu.setOptions(configReader.getDriverOptions());
         programmingMenu.selectAll();
-        toolMenu.selectAll();
+        toolMenu.setOptions(configReader.getToolOptions());
         virtualMachineMenu.setOptions(configReader.getVirtualMachineOptions());
     }
 

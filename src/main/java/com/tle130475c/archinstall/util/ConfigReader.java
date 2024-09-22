@@ -100,6 +100,15 @@ public class ConfigReader {
         return options;
     }
 
+    public Set<Integer> getToolOptions() throws NumberFormatException, XPathExpressionException {
+        Set<Integer> options = new HashSet<>();
+        for (int i = 0; i < Integer.parseInt(xmlReader.getValue("count(//tools/tool)")); i++) {
+            options.add(Integer.parseInt(xmlReader.getValue("//tools/tool[%d]/option".formatted(i + 1))));
+        }
+
+        return options;
+    }
+
     public WirelessNetwork getWirelessNetwork() throws XPathExpressionException {
         String ssid = xmlReader.getValue("//wirelessNetwork/ssid");
         String password = xmlReader.getValue("//wirelessNetwork/password");
