@@ -79,6 +79,16 @@ public class ConfigReader {
         return options;
     }
 
+    public Set<Integer> getProgrammingOptions() throws NumberFormatException, XPathExpressionException {
+        Set<Integer> options = new HashSet<>();
+        for (int i = 0; i < Integer.parseInt(xmlReader.getValue("count(//programmings/programming)")); i++) {
+            options.add(Integer.parseInt(
+                    xmlReader.getValue("//programmings/programming[%d]/option".formatted(i + 1))));
+        }
+
+        return options;
+    }
+
     public Set<Integer> getDesktopEnvironmentOptions() throws NumberFormatException, XPathExpressionException {
         Set<Integer> options = new HashSet<>();
         for (int i = 0; i < Integer

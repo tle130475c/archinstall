@@ -136,7 +136,7 @@ public class InstallSystem implements Runnable {
             throws NumberFormatException, XPathExpressionException {
         desktopEnvironmentMenu.setOptions(configReader.getDesktopEnvironmentOptions());
         driverMenu.setOptions(configReader.getDriverOptions());
-        programmingMenu.selectAll();
+        programmingMenu.setOptions(configReader.getProgrammingOptions());
         toolMenu.setOptions(configReader.getToolOptions());
         virtualMachineMenu.setOptions(configReader.getVirtualMachineOptions());
     }
