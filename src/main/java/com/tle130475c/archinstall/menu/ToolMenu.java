@@ -20,7 +20,7 @@ public class ToolMenu extends MultiChoiceMenu {
         addOption(new Option("Disk Image Tools", new DiskImageTool(chrootDir, userAccount), false));
         addOption(new Option("Font", new Font(chrootDir), false));
         addOption(new Option("Multimedia", new Multimedia(chrootDir), false));
-        addOption(new Option("Network Tool", new NetworkTool(chrootDir), false));
+        addOption(new Option("Network Tool", new NetworkTool(chrootDir, userAccount), false));
         addOption(new Option("Office", new Office(chrootDir, userAccount), false));
         addOption(new Option("Remote Desktop", new RemoteDesktop(chrootDir), false));
         addOption(new Option("Game", new Game(chrootDir, userAccount), false));
