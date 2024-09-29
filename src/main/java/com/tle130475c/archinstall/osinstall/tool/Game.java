@@ -23,8 +23,8 @@ public class Game implements Installable {
         installMainReposPkgsWithOptionalDeps(List.of("lutris", "wine", "winetricks"), chrootDir);
         installPkgs(List.of("discord", "steam", "steam-native-runtime",
                 "gnome-chess", "gnuchess", "kigo", "quadrapassel",
-                "minecraft-launcher", "wesnoth", "0ad", "xonotic"),
-                userAccount, chrootDir);
+                "minecraft-launcher", "wesnoth", "0ad", "xonotic", "supertux",
+                "supertuxkart", "teeworlds"), userAccount, chrootDir);
 
         return 0;
     }
