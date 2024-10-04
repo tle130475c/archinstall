@@ -9,11 +9,13 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 
+import com.tle130475c.archinstall.partition.LUKSPartition;
 import com.tle130475c.archinstall.partition.LogicalVolume;
 import com.tle130475c.archinstall.partition.Partition;
 import com.tle130475c.archinstall.systeminfo.StorageDeviceSize;
@@ -203,6 +205,22 @@ public final class DiskUtil {
         runVerbose(List.of(CRYPTSETUP, "close", luksMapperName));
 
         return partition;
+    }
+
+    public static void configureAutoMountLUKSPartition(LUKSPartition partition, String username)
+            throws IOException, InterruptedException {
+        Files.createDirectories(Paths.get("/etc/luks-keys"));
+        Files.writeString(Paths.get("/etc/luks-keys/luks-%s".formatted(partition.getPartitionUUID())),
+                partition.getLuksPassword());
+        runVerbose(List.of("chmod", "600", "/etc/luks-keys/luks-%s".formatted(partition.getPartitionUUID())));
+        Files.writeString(Paths.get("/etc/crypttab"), "luks-%s UUID=%s /etc/luks-keys/luks-%s nofail"
+                .formatted(partition.getPartitionUUID(), partition.getPartitionUUID(), partition.getPartitionUUID()),
+                StandardOpenOption.APPEND);
+        Files.writeString(Paths.get("/etc/fstab"),
+                "/dev/disk/by-uuid/%s /run/media/%s/%s auto nosuid,nodev,nofail,x-gvfs-show,x-gvfs-name=%s 0 0"
+                        .formatted(partition.getLuksUUID(), username, partition.getMapperName(),
+                                partition.getMapperName()),
+                StandardOpenOption.APPEND);
     }
 
     public static void mount(String pathToDevice, String mountPoint) throws IOException, InterruptedException {

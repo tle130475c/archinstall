@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.xml.sax.SAXException;
 
+import com.tle130475c.archinstall.partition.LUKSPartition;
 import com.tle130475c.archinstall.partition.Partition;
 import com.tle130475c.archinstall.partition.PartitionLayoutInfo;
 import com.tle130475c.archinstall.systeminfo.StorageDeviceSize;
@@ -54,6 +55,21 @@ public class ConfigReader {
 
     public String getUsername() throws XPathExpressionException {
         return xmlReader.getValue("//account/username");
+    }
+
+    public List<LUKSPartition> getLUKSAutoMountPartitions() throws XPathExpressionException {
+        List<LUKSPartition> partitions = new ArrayList<>();
+
+        for (int i = 0; i < Integer.parseInt(xmlReader.getValue("count(//luksAutoMount/partition)")); i++) {
+            String partitionUUID = xmlReader.getValue("//luksAutoMount/partition[%d]/partitionUUID".formatted(i + 1));
+            String luksUUID = xmlReader.getValue("//luksAutoMount/partition[%d]/luksUUID".formatted(i + 1));
+            String mapperName = xmlReader.getValue("//luksAutoMount/partition[%d]/mapperName".formatted(i + 1));
+            String luksPassword = xmlReader.getValue("//luksAutoMount/partition[%d]/luksPassword".formatted(i + 1));
+
+            partitions.add(new LUKSPartition(partitionUUID, luksUUID, mapperName, luksPassword));
+        }
+
+        return partitions;
     }
 
     public PartitionLayoutInfo getPartitionLayoutInfo() throws XPathExpressionException {

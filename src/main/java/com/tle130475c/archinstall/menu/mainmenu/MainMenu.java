@@ -26,5 +26,7 @@ public class MainMenu extends SingleChoiceMenu {
         addOption(new Option("Make Retail Windows ISO (installed system)", new MakeRetailWindowsISO(), false));
         addOption(new Option("Install Postfix (installed system, sudo)", new InstallPostfix(), false));
         addOption(new Option("Write Hybrid ISO to USB (sudo)", new WriteHybridISOToUSB(), false));
+        addOption(new Option("Configure LUKS Auto Mount (installed system, sudo)",
+                new ConfigureLUKSAutoMount(), false));
     }
 }
