@@ -24,7 +24,7 @@ public class CoreTool implements Installable {
                 "bash-completion", "flatpak", "tree", "archiso", "rclone", "rsync", "lm_sensors",
                 "ntfs-3g", "gparted", "exfatprogs", "pdftk", "youtube-dl", "ufw", "ufw-extras", "filezilla",
                 "texlive", "texlive-lang", "krusader", "gptfdisk", "ventoy-bin", "kio5-extras",
-                "gnome-characters", "reflector"), userAccount, chrootDir);
+                "gnome-characters", "reflector", "dislocker"), userAccount, chrootDir);
 
         return 0;
     }
