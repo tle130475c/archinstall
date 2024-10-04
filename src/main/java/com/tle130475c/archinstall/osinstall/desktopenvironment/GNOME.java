@@ -152,6 +152,9 @@ public class GNOME implements Installable {
         // disable automount for removable media
         gSettingsSet("org.gnome.desktop.media-handling", "automount", "false");
         gSettingsSet("org.gnome.desktop.media-handling", "automount-open", "false");
+
+        // disable tap-to-click
+        gSettingsSet("org.gnome.desktop.peripherals.touchpad", "tap-to-click", "false");
     }
 
     public void createCustomShortcut(List<GNOMEShortcut> shortcuts) throws IOException, InterruptedException {
