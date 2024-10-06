@@ -38,6 +38,7 @@ public class ConfigureGNOME implements Runnable {
         if (confirmDefaultYes(getConfirmation(":: Proceed with GNOME configuration? [Y/n] "))) {
             try {
                 configureGNOME();
+                System.console().printf("GNOME configuration completed!%n");
             } catch (InterruptedException | IOException e) {
                 Thread.currentThread().interrupt();
             }
