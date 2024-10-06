@@ -28,5 +28,6 @@ public class MainMenu extends SingleChoiceMenu {
         addOption(new Option("Write Hybrid ISO to USB (sudo)", new WriteHybridISOToUSB(), false));
         addOption(new Option("Configure LUKS Auto Mount (installed system, sudo)",
                 new ConfigureLUKSAutoMount(), false));
+        addOption(new Option("Configure GNOME (GNOME, installed system)", new ConfigureGNOME(), false));
     }
 }
