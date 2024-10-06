@@ -20,6 +20,8 @@ public class EraseDisk implements Runnable {
 
             if (confirmDefaultYes(getConfirmation(":: Proceed with erase? [Y/n] "))) {
                 eraseDisk(getPathToDisk(diskName));
+                runVerbose(List.of("lsblk"));
+                runVerbose(List.of("parted", getPathToDisk(diskName), "print"));
             }
         } catch (IOException | InterruptedException e) {
             Thread.currentThread().interrupt();
