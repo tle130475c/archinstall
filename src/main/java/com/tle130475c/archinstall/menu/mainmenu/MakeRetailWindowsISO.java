@@ -37,7 +37,15 @@ public class MakeRetailWindowsISO implements Runnable {
             Files.createDirectories(Paths.get("/tmp/modified/sources"));
 
             try (var writer = new PrintWriter("/tmp/modified/sources/ei.cfg")) {
-                writer.print("[Channel]\r\nRetail\r\n");
+                String fileContent = """
+                        [EditionID]
+                        Pro
+                        [Channel]
+                        Retail
+                        [VL]
+                        0
+                        """;
+                writer.print(fileContent);
             }
 
             runVerbose(List.of("bash", "-c", "mkisofs"
