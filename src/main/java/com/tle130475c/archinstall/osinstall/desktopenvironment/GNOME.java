@@ -49,9 +49,9 @@ public class GNOME implements Installable {
                 "sushi", "gnome-tweaks", "totem", "xdg-user-dirs-gtk", "gnome-usage", "endeavour", "dconf-editor",
                 "gnome-shell-extension-appindicator", "alacarte", "gnome-text-editor", "gnome-sound-recorder",
                 "seahorse", "seahorse-nautilus", "gnome-browser-connector", "xdg-desktop-portal",
-                "xdg-desktop-portal-gnome", "gnome-remote-desktop", "gnome-disk-utility", "libappindicator-gtk3",
+                "xdg-desktop-portal-gnome", "gnome-disk-utility", "libappindicator-gtk3",
                 "transmission-gtk", "power-profiles-daemon", "gvfs-smb", "gvfs-google", "gvfs-mtp", "gvfs-nfs",
-                "gnome-user-share", "gnome-logs", "evolution", "evolution-ews", "evolution-on", "gnome-software",
+                "gnome-logs", "evolution", "evolution-ews", "evolution-on", "gnome-software",
                 "gnome-boxes"), chrootDir);
         installPkgs(List.of(IBUS_BAMBOO_PACKAGE), userAccount, chrootDir);
 

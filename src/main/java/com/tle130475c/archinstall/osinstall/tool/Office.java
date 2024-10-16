@@ -19,7 +19,7 @@ public class Office implements Installable {
 
     @Override
     public int install() throws InterruptedException, IOException {
-        installPkgs(List.of("libreoffice-fresh", "calibre", "kchmviewer", "foliate", "okular", "kolourpaint",
+        installPkgs(List.of("libreoffice-fresh", "calibre", "kchmviewer", "foliate", "kolourpaint",
                 "teams-for-linux", "telegram-desktop", "evolution", "evolution-ews",
                 "evolution-on"), userAccount, chrootDir);
 
