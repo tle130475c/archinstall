@@ -41,9 +41,17 @@ public class MakeRetailWindowsISO implements Runnable {
                         [EditionID]
                         Pro
                         [Channel]
-                        Retail
+                        _Default
                         [VL]
                         0
+                        """;
+                writer.print(fileContent);
+            }
+
+            try (var writer = new PrintWriter("/tmp/modified/sources/pid.txt")) {
+                String fileContent = """
+                        [PID]
+                        Value=VK7JG-NPHTM-C97JM-9MPGT-3V66T
                         """;
                 writer.print(fileContent);
             }
