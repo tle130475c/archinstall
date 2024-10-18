@@ -144,10 +144,10 @@ public class GNOME implements Installable {
         gSettingsSet("org.gnome.desktop.session", "idle-delay", "uint32 0");
 
         // show battery percentage
-        gSettingsSet("org.gnome.desktop.interface", "show-battery-percentage", "true");
+        gSettingsSet(GNOME_DESKTOP_INTERFACE_SCHEMA, "show-battery-percentage", "true");
 
         // set clock format 24-hour
-        gSettingsSet("org.gnome.desktop.interface", "clock-format", "24h");
+        gSettingsSet(GNOME_DESKTOP_INTERFACE_SCHEMA, "clock-format", "24h");
 
         // disable automount for removable media
         gSettingsSet("org.gnome.desktop.media-handling", "automount", "false");
@@ -155,6 +155,9 @@ public class GNOME implements Installable {
 
         // disable tap-to-click
         gSettingsSet("org.gnome.desktop.peripherals.touchpad", "tap-to-click", "false");
+
+        // set dark color scheme
+        gSettingsSet(GNOME_DESKTOP_INTERFACE_SCHEMA, "color-scheme", "prefer-dark");
     }
 
     public void createCustomShortcut(List<GNOMEShortcut> shortcuts) throws IOException, InterruptedException {
