@@ -10,7 +10,6 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.xml.sax.SAXException;
 
-import com.tle130475c.archinstall.osinstall.desktopenvironment.GNOME;
 import com.tle130475c.archinstall.systeminfo.UserAccount;
 import com.tle130475c.archinstall.util.ConfigReader;
 
@@ -37,19 +36,11 @@ public class ConfigureGNOME implements Runnable {
 
         if (confirmDefaultYes(getConfirmation(":: Proceed with GNOME configuration? [Y/n] "))) {
             try {
-                configureGNOME();
+                ConfigureSystem.configureGNOME(userAccount);
                 System.console().printf("GNOME configuration completed!%n");
             } catch (InterruptedException | IOException e) {
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    public void configureGNOME() throws InterruptedException, IOException {
-        GNOME gnomeInstall = new GNOME(null, userAccount);
-        gnomeInstall.configureDesktopInterface();
-        gnomeInstall.createCustomShortcut(gnomeInstall.readShortcutsFromFile("gnome-shortcuts.txt"));
-        gnomeInstall.configureIbusBamboo();
-        gnomeInstall.enableExtension("appindicatorsupport@rgcjonas.gmail.com");
     }
 }

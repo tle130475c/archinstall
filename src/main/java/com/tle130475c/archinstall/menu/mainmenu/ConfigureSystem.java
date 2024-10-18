@@ -1,8 +1,8 @@
 package com.tle130475c.archinstall.menu.mainmenu;
 
 import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultNo;
-import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
 import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
+import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
 import static com.tle130475c.archinstall.util.PackageUtil.installFlatpakPackages;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class ConfigureSystem implements Runnable {
         if (confirmDefaultYes(getConfirmation(":: Proceed with configuration? [Y/n] "))) {
             try {
                 if (desktopEnvironmentOptions.contains(0)) {
-                    configureGNOME();
+                    configureGNOME(userAccount);
                 }
 
                 installFlatpakPkgs();
@@ -60,7 +60,7 @@ public class ConfigureSystem implements Runnable {
         }
     }
 
-    public void configureGNOME() throws InterruptedException, IOException {
+    public static void configureGNOME(UserAccount userAccount) throws InterruptedException, IOException {
         GNOME gnomeInstall = new GNOME(null, userAccount);
         gnomeInstall.configureDesktopInterface();
         gnomeInstall.createCustomShortcut(gnomeInstall.readShortcutsFromFile("gnome-shortcuts.txt"));
