@@ -21,7 +21,7 @@ public class Office implements Installable {
     public int install() throws InterruptedException, IOException {
         installPkgs(List.of("libreoffice-fresh", "calibre", "kchmviewer", "foliate", "kolourpaint",
                 "teams-for-linux", "telegram-desktop", "evolution", "evolution-ews",
-                "evolution-on"), userAccount, chrootDir);
+                "evolution-on", "goldendict-ng"), userAccount, chrootDir);
 
         return 0;
     }
