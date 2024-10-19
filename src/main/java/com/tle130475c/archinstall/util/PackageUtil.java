@@ -173,6 +173,12 @@ public final class PackageUtil {
         runVerbose(chrootDir != null
                 ? getCommandRunChrootAsUser(installPkgCmd, userAccount.getUsername(), chrootDir)
                 : installPkgCmd);
+
+        // clean up
+        List<String> cleanUpCmd = List.of("rm", "-rf", "/home/%s/tmp".formatted(userAccount.getUsername()));
+        runVerbose(chrootDir != null
+                ? getCommandRunChrootAsUser(cleanUpCmd, userAccount.getUsername(), chrootDir)
+                : cleanUpCmd);
     }
 
     public static int installPackageFromFile(String filename, String chrootDir)
