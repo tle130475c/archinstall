@@ -16,7 +16,7 @@ public class DotNET implements Installable {
 
     @Override
     public int install() throws InterruptedException, IOException {
-        installMainReposPkgs(List.of("dotnet-sdk", "mono-msbuild"), chrootDir);
+        installMainReposPkgs(List.of("dotnet-sdk", "mono-msbuild", "dotnet-sdk-7.0"), chrootDir);
         return 0;
     }
 }
