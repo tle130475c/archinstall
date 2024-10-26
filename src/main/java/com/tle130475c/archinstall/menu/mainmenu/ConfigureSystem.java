@@ -69,6 +69,7 @@ public class ConfigureSystem implements Runnable {
     }
 
     public static void installFlatpakPkgs() throws InterruptedException, IOException {
+        installFlatpakPackages(List.of("org.goldendict.GoldenDict"));
         installFlatpakPackages(List.of("com.usebottles.bottles"));
         installFlatpakPackages(List.of("com.belmoussaoui.Authenticator"));
     }
