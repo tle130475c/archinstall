@@ -7,6 +7,7 @@ import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -17,27 +18,27 @@ public class MakeRetailWindowsISO implements Runnable {
     public void run() {
         try {
             System.console().printf("Enter path to Windows ISO: ");
-            String pathToWindowsISO = System.console().readLine();
+            String userInputWindowsISOLocation = System.console().readLine();
+            Path windowsISOLocationPath = Paths.get(userInputWindowsISOLocation);
 
-            if (!Files.exists(Paths.get(pathToWindowsISO)) || Files.isDirectory(Paths.get(pathToWindowsISO))) {
+            if (!Files.exists(windowsISOLocationPath) || Files.isDirectory(windowsISOLocationPath)) {
                 System.console().printf("File not found!\n");
                 return;
             }
 
-            // get new ISO information
-            String newPathName = FilenameUtils.removeExtension(pathToWindowsISO) + "-modified.iso";
-            String newVolumeName = runGetOutput(List.of("bash", "-c",
-                    "iso-info %s |".formatted(pathToWindowsISO)
-                            + " grep -i '^Volume[ ]*:' |"
-                            + " cut -d':' -f2 |"
-                            + " sed 's/^ //g'"));
-
-            // create new ISO
-            runVerbose(getCommandRunSudo(List.of("mount", pathToWindowsISO, "/mnt", "-o", "loop")));
-            Files.createDirectories(Paths.get("/tmp/modified/sources"));
-
-            try (var writer = new PrintWriter("/tmp/modified/sources/ei.cfg")) {
-                String fileContent = """
+            // determine ei.cfg content based on Windows version
+            String eiCfgContent = "";
+            if (windowsISOLocationPath.getFileName().toString().contains("Win10")) {
+                System.console().printf("Building Windows 10 Pro iso...\n");
+                eiCfgContent = """
+                        [EditionID]
+                        Professional
+                        [Channel]
+                        Retail
+                        """;
+            } else if (windowsISOLocationPath.getFileName().toString().contains("Win11")) {
+                System.console().printf("Building Windows 11 Pro iso...\n");
+                eiCfgContent = """
                         [EditionID]
                         Pro
                         [Channel]
@@ -45,7 +46,25 @@ public class MakeRetailWindowsISO implements Runnable {
                         [VL]
                         0
                         """;
-                writer.print(fileContent);
+            } else {
+                System.console().printf("Unsupported Windows version!\n");
+                return;
+            }
+
+            // get new ISO information
+            String newPathName = FilenameUtils.removeExtension(userInputWindowsISOLocation) + "-modified.iso";
+            String newVolumeName = runGetOutput(List.of("bash", "-c",
+                    "iso-info %s |".formatted(userInputWindowsISOLocation)
+                            + " grep -i '^Volume[ ]*:' |"
+                            + " cut -d':' -f2 |"
+                            + " sed 's/^ //g'"));
+
+            // create new ISO
+            runVerbose(getCommandRunSudo(List.of("mount", userInputWindowsISOLocation, "/mnt", "-o", "loop")));
+            Files.createDirectories(Paths.get("/tmp/modified/sources"));
+
+            try (var writer = new PrintWriter("/tmp/modified/sources/ei.cfg")) {
+                writer.print(eiCfgContent);
             }
 
             try (var writer = new PrintWriter("/tmp/modified/sources/pid.txt")) {
