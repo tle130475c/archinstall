@@ -103,7 +103,7 @@ public class MakeRetailWindowsISO implements Runnable {
                     + " /mnt"
                     + " /tmp/modified"));
             runVerbose(getCommandRunSudo(List.of("umount", "/mnt")));
-            System.console().printf("Successfully making custom Windows iso!\n");
+            System.console().printf("Successfully making Windows Pro Retail iso!\n");
         } catch (IOException | InterruptedException e) {
             Thread.currentThread().interrupt();
         }
