@@ -1,5 +1,7 @@
 package com.tle130475c.archinstall.menu.mainmenu;
 
+import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
+import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
 import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunSudo;
 import static com.tle130475c.archinstall.util.ShellUtil.runGetOutput;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
@@ -29,7 +31,7 @@ public class MakeRetailWindowsISO implements Runnable {
             // determine ei.cfg content based on Windows version
             String eiCfgContent = "";
             if (windowsISOLocationPath.getFileName().toString().contains("Win10")) {
-                System.console().printf("Building Windows 10 Pro iso...\n");
+                System.console().printf("Windows 10 iso detected...\n");
                 eiCfgContent = """
                         [EditionID]
                         Professional
@@ -37,7 +39,7 @@ public class MakeRetailWindowsISO implements Runnable {
                         Retail
                         """;
             } else if (windowsISOLocationPath.getFileName().toString().contains("Win11")) {
-                System.console().printf("Building Windows 11 Pro iso...\n");
+                System.console().printf("Windows 11 iso detected...\n");
                 eiCfgContent = """
                         [EditionID]
                         Pro
@@ -48,6 +50,13 @@ public class MakeRetailWindowsISO implements Runnable {
                         """;
             } else {
                 System.console().printf("Unsupported Windows version!\n");
+                return;
+            }
+
+            // confirmation
+            if (confirmDefaultYes(getConfirmation(":: Proceed with making Windows Pro Retail iso? [Y/n] "))) {
+                System.console().printf("Making Windows Pro Retail iso...\n");
+            } else {
                 return;
             }
 
