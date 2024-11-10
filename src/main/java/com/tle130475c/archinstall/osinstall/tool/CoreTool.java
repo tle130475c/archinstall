@@ -1,6 +1,7 @@
 package com.tle130475c.archinstall.osinstall.tool;
 
 import static com.tle130475c.archinstall.util.ConfigUtil.enableService;
+import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.installPkgs;
 
 import java.io.IOException;
@@ -25,6 +26,8 @@ public class CoreTool implements Installable {
                 "ntfs-3g", "gparted", "exfatprogs", "pdftk", "youtube-dl", "ufw", "ufw-extras", "filezilla",
                 "texlive", "texlive-lang", "krusader", "gptfdisk", "ventoy-bin", "kio5-extras",
                 "gnome-characters", "reflector", "dislocker"), userAccount, chrootDir);
+
+        installMainReposPkgs(List.of("ktexteditor5"), chrootDir); // dependency of krusader, can be removed in the future
 
         return 0;
     }
