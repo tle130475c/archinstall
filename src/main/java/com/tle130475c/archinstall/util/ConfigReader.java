@@ -105,6 +105,10 @@ public class ConfigReader {
         return options;
     }
 
+    public int getBootloaderOption() throws NumberFormatException, XPathExpressionException {
+        return Integer.parseInt(xmlReader.getValue("//bootloader/options/option/value"));
+    }
+
     public Set<Integer> getDesktopEnvironmentOptions() throws NumberFormatException, XPathExpressionException {
         Set<Integer> options = new HashSet<>();
         for (int i = 0; i < Integer

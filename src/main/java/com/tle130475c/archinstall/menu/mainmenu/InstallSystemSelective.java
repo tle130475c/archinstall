@@ -8,6 +8,9 @@ public class InstallSystemSelective extends InstallSystem {
     @Override
     protected void selectInstallSoftwares() {
         System.console().printf("%n");
+        bootloaderMenu.selectOption();
+
+        System.console().printf("%n");
         desktopEnvironmentMenu.selectOption();
 
         System.console().printf("%n");
@@ -26,6 +29,7 @@ public class InstallSystemSelective extends InstallSystem {
     @Override
     protected void selectInstallSoftwareFromFile(ConfigReader configReader)
             throws NumberFormatException, XPathExpressionException {
+        bootloaderMenu.setOption(configReader.getBootloaderOption());
         desktopEnvironmentMenu.setOptions(configReader.getDesktopEnvironmentOptions());
         driverMenu.setOptions(configReader.getDriverOptions());
 

@@ -237,10 +237,6 @@ public class BaseSystem {
         backupFile(PATH_TO_MKINITCPIO_CONFIG);
 
         findAndReplaceInLine(PATH_TO_MKINITCPIO_CONFIG, MKINITCPIO_HOOKS_LINE_PATTERN,
-                " keyboard", "");
-        findAndReplaceInLine(PATH_TO_MKINITCPIO_CONFIG, MKINITCPIO_HOOKS_LINE_PATTERN,
-                "autodetect", "autodetect keyboard keymap");
-        findAndReplaceInLine(PATH_TO_MKINITCPIO_CONFIG, MKINITCPIO_HOOKS_LINE_PATTERN,
                 "block", "block encrypt lvm2");
 
         buildInitramfsImageMkinitcpio();
@@ -279,6 +275,32 @@ public class BaseSystem {
         }
     }
 
+    public void configureGRUBBootloader() throws InterruptedException, IOException {
+        installMainReposPkgs(List.of("efibootmgr", "intel-ucode", "grub", "grub-customizer"), CHROOT_DIR);
+
+        configureMkinitcpioForHibernation();
+
+        String text = "";
+        backupFile(CHROOT_DIR + "/etc/default/grub");
+        if (systemInfo.getPartitionLayout() instanceof LVMOnLUKSPartitionLayout layout) {
+            configureMkinitcpioForEncryptedRootFileSystem();
+            text = "cryptdevice=UUID=%s:%s root=%s resume=UUID=%s rw".formatted(
+                    layout.getLinuxLUKSPartition().getUUID(), layout.getLUKSMapperName(),
+                    layout.getRoot().getPath(), layout.getSwap().getUUID());
+        } else if (systemInfo.getPartitionLayout() instanceof PartitionLayout layout) {
+            text = "resume=UUID=%s rw".formatted(layout.getSwap().getUUID());
+        }
+
+        findAndReplaceInLine(CHROOT_DIR + "/etc/default/grub", "^GRUB_CMDLINE_LINUX=\"\"$", "\"\"",
+                "\"%s\"".formatted(text));
+
+        List<String> grubInstallCommand = List.of("grub-install", "--target=x86_64-efi", "--efi-directory=/efi",
+                "--bootloader-id=archlinux", "--recheck");
+        List<String> grubMkConfigCommand = List.of("grub-mkconfig", "-o", "/boot/grub/grub.cfg");
+        runVerbose(getCommandRunChroot(grubInstallCommand, CHROOT_DIR));
+        runVerbose(getCommandRunChroot(grubMkConfigCommand, CHROOT_DIR));
+    }
+
     public void install() throws InterruptedException, IOException {
         disableAutoGenerateMirrors();
         enableNetworkTimeSynchronization();
@@ -296,6 +318,5 @@ public class BaseSystem {
         addNormalUser();
         disableSudoPasswordPromptTimeout();
         disableSudoTimestampTimeout();
-        configureSystemdBootloader();
     }
 }

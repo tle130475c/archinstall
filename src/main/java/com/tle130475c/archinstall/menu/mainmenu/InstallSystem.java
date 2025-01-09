@@ -15,6 +15,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.xml.sax.SAXException;
 
+import com.tle130475c.archinstall.menu.BootloaderMenu;
 import com.tle130475c.archinstall.menu.DesktopEnvironmentMenu;
 import com.tle130475c.archinstall.menu.DriverMenu;
 import com.tle130475c.archinstall.menu.PartitionLayoutMenu;
@@ -37,6 +38,7 @@ public class InstallSystem implements Runnable {
 
     private BaseSystem baseSystem;
 
+    protected BootloaderMenu bootloaderMenu;
     protected DesktopEnvironmentMenu desktopEnvironmentMenu;
     protected DriverMenu driverMenu;
     protected ProgrammingMenu programmingMenu;
@@ -117,6 +119,7 @@ public class InstallSystem implements Runnable {
         final String chrootDir = "/mnt";
 
         baseSystem = new BaseSystem(systemInfo, userAccount);
+        bootloaderMenu = new BootloaderMenu(baseSystem);
         desktopEnvironmentMenu = new DesktopEnvironmentMenu(chrootDir, userAccount);
         driverMenu = new DriverMenu(chrootDir, userAccount);
         programmingMenu = new ProgrammingMenu(chrootDir, userAccount);
@@ -125,6 +128,7 @@ public class InstallSystem implements Runnable {
     }
 
     protected void selectInstallSoftwares() {
+        bootloaderMenu.selectOption();
         desktopEnvironmentMenu.selectOption();
         driverMenu.selectOption();
         programmingMenu.selectAll();
@@ -134,6 +138,7 @@ public class InstallSystem implements Runnable {
 
     protected void selectInstallSoftwareFromFile(ConfigReader configReader)
             throws NumberFormatException, XPathExpressionException {
+        bootloaderMenu.setOption(configReader.getBootloaderOption());
         desktopEnvironmentMenu.setOptions(configReader.getDesktopEnvironmentOptions());
         driverMenu.setOptions(configReader.getDriverOptions());
         programmingMenu.setOptions(configReader.getProgrammingOptions());
@@ -144,6 +149,7 @@ public class InstallSystem implements Runnable {
     private void getInstallSummary() {
         System.console().printf("Install summary:%n");
         System.console().printf("%s%n", "[Base System]");
+        System.console().printf("%s%n", bootloaderMenu.getActionSummary());
         System.console().printf("%s%n", desktopEnvironmentMenu.getActionSummary());
         System.console().printf("%s%n", driverMenu.getActionSummary());
         System.console().printf("%s%n", programmingMenu.getActionSummary());
@@ -164,6 +170,7 @@ public class InstallSystem implements Runnable {
         }
 
         baseSystem.install();
+        bootloaderMenu.doAction();
 
         BaseSystem.allowUserInWheelGroupExecuteAnyCommandWithoutPassword();
 
