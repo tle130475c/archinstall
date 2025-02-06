@@ -276,7 +276,7 @@ public class BaseSystem {
     }
 
     public void configureGRUBBootloader() throws InterruptedException, IOException {
-        installMainReposPkgs(List.of("efibootmgr", "intel-ucode", "grub", "grub-customizer"), CHROOT_DIR);
+        installMainReposPkgs(List.of("efibootmgr", "intel-ucode", "grub", "grub-customizer", "os-prober"), CHROOT_DIR);
 
         configureMkinitcpioForHibernation();
 
