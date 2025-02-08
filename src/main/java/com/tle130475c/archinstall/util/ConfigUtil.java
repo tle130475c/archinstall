@@ -98,7 +98,7 @@ public final class ConfigUtil {
         int lineNumber = lines.indexOf(linePattern);
 
         if (lineNumber != -1) {
-            lines.set(lineNumber, lines.get(lineNumber).replace("# ", ""));
+            lines.set(lineNumber, lines.get(lineNumber).replace("#", "").trim());
             try (var writer = new PrintWriter(path)) {
                 for (String line : lines) {
                     writer.println(line);
