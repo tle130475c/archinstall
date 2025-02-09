@@ -27,7 +27,7 @@ public class CoreTool implements Installable {
                 "texlive", "texlive-lang", "krusader", "gptfdisk", "ventoy-bin", "kio5-extras",
                 "gnome-characters", "reflector", "dislocker", "vsftpd", "smartmontools"), userAccount, chrootDir);
 
-        installMainReposPkgs(List.of("ktexteditor5"), chrootDir); // dependency of krusader, can be removed in the future
+        installMainReposPkgs(List.of("ktexteditor5"), chrootDir); // TODO: dependency of krusader, can be removed in the future
 
         return 0;
     }
