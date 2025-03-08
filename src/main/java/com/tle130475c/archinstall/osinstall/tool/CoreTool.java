@@ -23,9 +23,9 @@ public class CoreTool implements Installable {
     public int install() throws InterruptedException, IOException {
         installPkgs(List.of("keepassxc", "expect", "pacman-contrib", "dosfstools", "p7zip", "unarchiver",
                 "bash-completion", "flatpak", "tree", "archiso", "rclone", "rsync", "lm_sensors",
-                "ntfs-3g", "gparted", "exfatprogs", "pdftk", "youtube-dl", "ufw", "ufw-extras", "filezilla",
+                "ntfs-3g", "gparted", "exfatprogs", "pdftk", "ufw", "ufw-extras", "filezilla",
                 "texlive", "texlive-lang", "krusader", "gptfdisk", "ventoy-bin", "kio5-extras",
-                "gnome-characters", "reflector", "dislocker", "vsftpd", "smartmontools"), userAccount, chrootDir);
+                "gnome-characters", "reflector", "dislocker", "smartmontools"), userAccount, chrootDir);
 
         installMainReposPkgs(List.of("ktexteditor5"), chrootDir); // TODO: dependency of krusader, can be removed in the future
 
