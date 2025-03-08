@@ -19,7 +19,7 @@ public class Java implements Installable {
 
     @Override
     public int install() throws InterruptedException, IOException {
-        installPkgs(List.of("jdk-openjdk", "openjdk-doc", "openjdk-src", "jdk11-openjdk", "maven", "gradle",
+        installPkgs(List.of("jdk-openjdk", "openjdk-doc", "openjdk-src", "maven", "gradle",
                 "gradle-doc", "xorg-fonts-type1", "jdk21-openjdk", "jetbrains-toolbox"),
                 userAccount, chrootDir);
 
