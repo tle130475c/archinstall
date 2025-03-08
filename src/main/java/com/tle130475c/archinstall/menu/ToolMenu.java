@@ -5,7 +5,6 @@ import com.tle130475c.archinstall.osinstall.tool.CoreTool;
 import com.tle130475c.archinstall.osinstall.tool.DiskImageTool;
 import com.tle130475c.archinstall.osinstall.tool.Font;
 import com.tle130475c.archinstall.osinstall.tool.Game;
-import com.tle130475c.archinstall.osinstall.tool.Mullvad;
 import com.tle130475c.archinstall.osinstall.tool.Multimedia;
 import com.tle130475c.archinstall.osinstall.tool.NetworkTool;
 import com.tle130475c.archinstall.osinstall.tool.Office;
@@ -24,6 +23,5 @@ public class ToolMenu extends MultiChoiceMenu {
         addOption(new Option("Office", new Office(chrootDir, userAccount), false));
         addOption(new Option("Remote Desktop", new RemoteDesktop(chrootDir), false));
         addOption(new Option("Game", new Game(chrootDir, userAccount), false));
-        addOption(new Option("Mullvad", new Mullvad(chrootDir, userAccount), false));
     }
 }
