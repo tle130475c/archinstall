@@ -14,11 +14,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- logging -->
-        <slf4j-api.version>2.0.16</slf4j-api.version>
-        <slf4j-simple.version>2.0.16</slf4j-simple.version>
+        <logback-classic.version>1.5.17</logback-classic.version>
 
         <!-- utilities -->
         <commons-io.version>2.18.0</commons-io.version>
+        <lombok.version>1.18.36</lombok.version>
 
         <!-- testing -->
         <junit-bom.version>5.12.0-M1</junit-bom.version>
@@ -51,22 +51,27 @@
     <dependencies>
         <!-- logging -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j-api.version}</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-classic.version}</version>
+            <scope>compile</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j-simple.version}</version>
-        </dependency>
 
+        <!-- utilities -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
 
         <!-- testing -->
         <dependency>
