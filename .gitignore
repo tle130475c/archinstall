@@ -36,3 +36,6 @@ build/
 
 ### private informations ###
 install-info.xml
+
+### logging
+logs/

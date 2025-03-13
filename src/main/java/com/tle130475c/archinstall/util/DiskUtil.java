@@ -58,7 +58,8 @@ public final class DiskUtil {
         runVerbose(List.of("ntfsfix", "-d", partition.getPath()));
     }
 
-    public static StorageDeviceSize getPartitionSizeInByte(Partition partition) throws IOException {
+    public static StorageDeviceSize getPartitionSizeInByte(Partition partition)
+            throws IOException, InterruptedException {
         String sizeInString = runGetOutput(List.of("blockdev", "--getsize64", partition.getPath()));
         return new StorageDeviceSize(new BigInteger(sizeInString), "B");
     }

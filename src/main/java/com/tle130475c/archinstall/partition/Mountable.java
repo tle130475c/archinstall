@@ -18,7 +18,7 @@ public interface Mountable {
         runVerbose(List.of("mount", getPath(), getMountPoint()));
     }
 
-    default String getUUID() throws IOException {
+    default String getUUID() throws IOException, InterruptedException {
         return runGetOutput(List.of("blkid", "-s", "UUID", "-o", "value", getPath()));
     }
 }

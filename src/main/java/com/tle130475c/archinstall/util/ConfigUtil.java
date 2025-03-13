@@ -57,7 +57,7 @@ public final class ConfigUtil {
         }
     }
 
-    public static boolean isServiceStarted(String service, String chrootDir) throws IOException {
+    public static boolean isServiceStarted(String service, String chrootDir) throws IOException, InterruptedException {
         List<String> command = List.of(SYSTEMCTL, "show", "--property=ActiveEnterTimestamp", "--no-pager", service);
         String output = runGetOutput(
                 chrootDir != null ? getCommandRunChroot(command, chrootDir) : command)
@@ -66,7 +66,7 @@ public final class ConfigUtil {
         return !output.isBlank();
     }
 
-    public static String getServiceState(String service, String chrootDir) throws IOException {
+    public static String getServiceState(String service, String chrootDir) throws IOException, InterruptedException {
         List<String> command = List.of(SYSTEMCTL, "show", "--no-pager", "-p", "SubState", "--value", service);
         return runGetOutput(chrootDir != null ? getCommandRunChroot(command, chrootDir) : command);
     }

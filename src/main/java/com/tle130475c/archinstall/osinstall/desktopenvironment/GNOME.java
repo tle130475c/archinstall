@@ -225,7 +225,7 @@ public class GNOME implements Installable {
         gSettingsReset(SCHEMA_TO_LIST, GSETTINGS_CUSTOM_KEYBINDINGS_KEY);
     }
 
-    private Pair<String, List<Integer>> getGNOMEShortcutPathListAndIndexes() throws IOException {
+    private Pair<String, List<Integer>> getGNOMEShortcutPathListAndIndexes() throws IOException, InterruptedException {
         String pathList = runGetOutput(
                 List.of(GSETTINGS, "get", SCHEMA_TO_LIST, GSETTINGS_CUSTOM_KEYBINDINGS_KEY));
         List<Integer> indexes = pathList.equals("@as []") ? List.of()

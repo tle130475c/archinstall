@@ -152,9 +152,7 @@
                         <filters>
                             <filter>
                                 <artifact>*:*</artifact>
-                                <excludes>
-                                    <exclude>META-INF/**</exclude>
-                                </excludes>
+                                <excludes></excludes>
                             </filter>
                         </filters>
                     </configuration>

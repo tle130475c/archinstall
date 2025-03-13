@@ -186,7 +186,8 @@ public final class PackageUtil {
         return installMainReposPkgs(getPackagesFromFile(filename), chrootDir);
     }
 
-    public static List<String> getOptionalDependencies(String packageName, String chrootDir) throws IOException {
+    public static List<String> getOptionalDependencies(String packageName, String chrootDir)
+            throws IOException, InterruptedException {
         List<String> getInfoCommand = List.of(PACMAN, "-Qi", packageName);
         String rawInfo = runGetOutput(chrootDir != null
                 ? getCommandRunChroot(getInfoCommand, chrootDir)

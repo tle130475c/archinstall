@@ -8,7 +8,11 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.stream.Stream;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class ShellUtil {
+    private static final String COMMAND_EXECUTION_FAILURE_MESSAGE = "Failed to run command {}";
     private static final String ARCH_CHROOT_COMMAND = "arch-chroot";
 
     private ShellUtil() {
@@ -19,26 +23,44 @@ public final class ShellUtil {
         List<Process> processes = ProcessBuilder.startPipeline(builders);
         processes.getLast().waitFor();
 
-        return processes.getLast().exitValue();
+        int exitValue = processes.getLast().exitValue();
+        if (exitValue != 0) {
+            log.error(COMMAND_EXECUTION_FAILURE_MESSAGE, commands);
+        }
+
+        return exitValue;
     }
 
     public static int runSilent(List<String> command) throws IOException, InterruptedException {
         Process process = new ProcessBuilder(command).start();
         process.waitFor();
 
-        return process.exitValue();
+        int exitValue = process.exitValue();
+        logCommandExecutionStatus(exitValue, command);
+
+        return exitValue;
     }
 
     public static int runVerbose(List<String> command) throws IOException, InterruptedException {
         Process process = new ProcessBuilder(command).inheritIO().start();
         process.waitFor();
 
-        return process.exitValue();
+        int exitValue = process.exitValue();
+        logCommandExecutionStatus(exitValue, command);
+
+        return exitValue;
     }
 
-    public static String runGetOutput(List<String> command) throws IOException {
+    public static String runGetOutput(List<String> command) throws IOException, InterruptedException {
         ProcessBuilder builder = new ProcessBuilder(command);
-        return new String(builder.start().getInputStream().readAllBytes()).trim();
+        Process process = builder.start();
+        String output = new String(process.getInputStream().readAllBytes()).trim();
+        process.waitFor();
+
+        int exitValue = process.exitValue();
+        logCommandExecutionStatus(exitValue, command);
+
+        return output;
     }
 
     public static int runSetInput(List<String> command, List<String> inputList)
@@ -53,15 +75,24 @@ public final class ShellUtil {
 
         process.waitFor();
 
-        return process.exitValue();
+        int exitValue = process.exitValue();
+        logCommandExecutionStatus(exitValue, command);
+
+        return exitValue;
     }
 
     public static int runAppendOutputToFile(List<String> command, String filePath)
             throws InterruptedException, IOException {
-        return new ProcessBuilder(command)
+        Process process = new ProcessBuilder(command)
                 .inheritIO()
                 .redirectOutput(Redirect.appendTo(new File(filePath)))
-                .start().waitFor();
+                .start();
+        process.waitFor();
+
+        int exitValue = process.exitValue();
+        logCommandExecutionStatus(exitValue, command);
+
+        return exitValue;
     }
 
     public static List<String> getCommandRunSudo(List<String> command) {
@@ -75,5 +106,11 @@ public final class ShellUtil {
     public static List<String> getCommandRunChrootAsUser(List<String> command, String username, String chrootDir) {
         return Stream.concat(List.of(ARCH_CHROOT_COMMAND, "-u", username, chrootDir).stream(), command.stream())
                 .toList();
+    }
+
+    private static void logCommandExecutionStatus(int exitValue, List<String> command) {
+        if (exitValue != 0) {
+            log.error(COMMAND_EXECUTION_FAILURE_MESSAGE, command);
+        }
     }
 }
