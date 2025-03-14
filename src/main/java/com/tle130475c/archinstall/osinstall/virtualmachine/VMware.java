@@ -20,6 +20,7 @@ public class VMware implements Installable {
 
     @Override
     public int install() throws InterruptedException, IOException {
+        installPkgs(List.of("vmware-keymaps"), userAccount, chrootDir);
         installPkgs(List.of("vmware-workstation"), userAccount, chrootDir);
         return 0;
     }
