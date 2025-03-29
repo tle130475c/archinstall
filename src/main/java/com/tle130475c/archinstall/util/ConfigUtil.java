@@ -7,13 +7,21 @@ import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class ConfigUtil {
     private static final String SYSTEMCTL = "systemctl";
 
@@ -121,6 +129,31 @@ public final class ConfigUtil {
                 }
             }
         }
+    }
+
+    public static boolean deleteMatchingFiles(String dir, String regexPattern) throws IOException {
+        Path directory = Paths.get(dir);
+        Pattern pattern = Pattern.compile(regexPattern);
+        AtomicBoolean fileDeleted = new AtomicBoolean(false); // Track if any file was deleted
+
+        Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                if (pattern.matcher(file.getFileName().toString()).matches()) {
+                    log.info("Deleting: " + file);
+                    Files.delete(file);
+                    fileDeleted.set(true);
+                }
+                return FileVisitResult.CONTINUE;
+            }
+        });
+
+        return fileDeleted.get();
+    }
+
+    public static void cleanUpGnuPGLock(String gnuPGConfigPath) throws IOException {
+        deleteMatchingFiles(gnuPGConfigPath, "^\\.\\#lk.*");
+        deleteMatchingFiles(gnuPGConfigPath, "^pubring\\.db\\.lock$");
     }
 
     private static int manageSystemService(String action, String service, String chrootDir)

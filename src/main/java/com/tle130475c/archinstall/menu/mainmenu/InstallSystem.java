@@ -1,5 +1,6 @@
 package com.tle130475c.archinstall.menu.mainmenu;
 
+import static com.tle130475c.archinstall.util.ConfigUtil.cleanUpGnuPGLock;
 import static com.tle130475c.archinstall.util.IOUtil.confirmDefaultYes;
 import static com.tle130475c.archinstall.util.IOUtil.getConfirmation;
 import static com.tle130475c.archinstall.util.IOUtil.readPassword;
@@ -182,5 +183,6 @@ public class InstallSystem implements Runnable {
 
         BaseSystem.disallowUserInWheelGroupExecuteAnyCommandWithoutPassword();
         BaseSystem.allowUserInWheelGroupExecuteAnyCommand();
+        cleanUpGnuPGLock("/mnt/home/%s/.gnupg/public-keys.d".formatted(userAccount.getUsername()));
     }
 }
