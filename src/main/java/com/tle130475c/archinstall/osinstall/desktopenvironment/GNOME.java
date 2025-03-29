@@ -12,6 +12,8 @@ import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -60,6 +62,7 @@ public class GNOME implements Installable {
 
     @Override
     public int config() throws IOException, InterruptedException {
+        Files.createDirectories(Paths.get("/home/%s/.config/environment.d".formatted(userAccount.getUsername())));
         enableService("gdm", chrootDir);
         enableService("bluetooth", chrootDir);
         return 0;

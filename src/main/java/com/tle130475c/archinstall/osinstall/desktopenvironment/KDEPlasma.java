@@ -6,6 +6,8 @@ import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunChrootAsUse
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import com.tle130475c.archinstall.osinstall.Installable;
@@ -36,6 +38,7 @@ public class KDEPlasma implements Installable {
 
     @Override
     public int config() throws IOException, InterruptedException {
+        Files.createDirectories(Paths.get("/home/%s/.config/environment.d".formatted(userAccount.getUsername())));
         enableService("sddm", chrootDir);
         enableService("bluetooth", chrootDir);
         return 0;
