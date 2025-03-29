@@ -97,24 +97,7 @@ public class GNOME implements Installable {
 
     public void configureDesktopInterface() throws InterruptedException, IOException {
         final String GNOME_DESKTOP_INTERFACE_SCHEMA = "org.gnome.desktop.interface";
-        final String CASCADIA_CODE_MONO_12_VALUE = "Cascadia Mono 12";
         final String GNOME_POWER_SCHEMA = "org.gnome.settings-daemon.plugins.power";
-
-        if (!isPackageInstalled("ttf-cascadia-code", chrootDir)) {
-            installMainReposPkgs(List.of("ttf-cascadia-code"), chrootDir);
-        }
-
-        // set default monospace font
-        gSettingsSet(GNOME_DESKTOP_INTERFACE_SCHEMA, "monospace-font-name", CASCADIA_CODE_MONO_12_VALUE);
-
-        // set default interface font
-        gSettingsSet(GNOME_DESKTOP_INTERFACE_SCHEMA, "font-name", CASCADIA_CODE_MONO_12_VALUE);
-
-        // set default legacy windows titles font
-        gSettingsSet("org.gnome.desktop.wm.preferences", "titlebar-font", "Cascadia Mono Bold 12");
-
-        // set default document font
-        gSettingsSet(GNOME_DESKTOP_INTERFACE_SCHEMA, "document-font-name", CASCADIA_CODE_MONO_12_VALUE);
 
         // set font-antialiasing to rgba
         gSettingsSet(GNOME_DESKTOP_INTERFACE_SCHEMA, "font-antialiasing", "rgba");
