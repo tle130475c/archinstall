@@ -1,6 +1,7 @@
 package com.tle130475c.archinstall.util;
 
 import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunChroot;
+import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunChrootAsUser;
 import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunSudo;
 import static com.tle130475c.archinstall.util.ShellUtil.runGetOutput;
 import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
@@ -154,6 +155,14 @@ public final class ConfigUtil {
     public static void cleanUpGnuPGLock(String gnuPGConfigPath) throws IOException {
         deleteMatchingFiles(gnuPGConfigPath, "^\\.\\#lk.*");
         deleteMatchingFiles(gnuPGConfigPath, "^pubring\\.db\\.lock$");
+    }
+
+    public static void createUserEnvironmentDir(String username, String chrootDir)
+            throws IOException, InterruptedException {
+        List<String> command = List.of("mkdir", "-p", "/home/%s/.config/environment.d".formatted(username));
+        runVerbose(chrootDir != null
+                ? getCommandRunChrootAsUser(command, username, chrootDir)
+                : command);
     }
 
     private static int manageSystemService(String action, String service, String chrootDir)
