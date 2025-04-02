@@ -142,9 +142,6 @@ public class GNOME implements Installable {
         // disable tap-to-click
         gSettingsSet("org.gnome.desktop.peripherals.touchpad", "tap-to-click", "false");
 
-        // set dark color scheme
-        gSettingsSet(GNOME_DESKTOP_INTERFACE_SCHEMA, "color-scheme", "prefer-dark");
-
         // app switching include app from the current workspace only
         gSettingsSet(GNOME_APP_SWITCHER_SCHEMA, "current-workspace-only", "true");
     }
