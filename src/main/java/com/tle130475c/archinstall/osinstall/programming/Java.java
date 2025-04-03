@@ -1,6 +1,9 @@
 package com.tle130475c.archinstall.osinstall.programming;
 
 import static com.tle130475c.archinstall.util.PackageUtil.installPkgs;
+import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunChroot;
+import static com.tle130475c.archinstall.util.ShellUtil.getCommandRunSudo;
+import static com.tle130475c.archinstall.util.ShellUtil.runVerbose;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,5 +27,11 @@ public class Java implements Installable {
                 userAccount, chrootDir);
 
         return 0;
+    }
+
+    @Override
+    public int config() throws IOException, InterruptedException {
+        List<String> command = List.of("archlinux-java", "set", "java-21-openjdk");
+        return runVerbose(chrootDir != null ? getCommandRunChroot(command, chrootDir) : getCommandRunSudo(command));
     }
 }
