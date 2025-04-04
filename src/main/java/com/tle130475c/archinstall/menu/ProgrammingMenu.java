@@ -1,6 +1,7 @@
 package com.tle130475c.archinstall.menu;
 
 import com.tle130475c.archinstall.osinstall.programming.CAndCPP;
+import com.tle130475c.archinstall.osinstall.programming.CodeEditor;
 import com.tle130475c.archinstall.osinstall.programming.CoreProgrammingTool;
 import com.tle130475c.archinstall.osinstall.programming.Docker;
 import com.tle130475c.archinstall.osinstall.programming.DotNET;
@@ -27,5 +28,6 @@ public class ProgrammingMenu extends MultiChoiceMenu {
         addOption(new Option("Python", new Python(chrootDir), false));
         addOption(new Option("Neo4j", new Neo4j(chrootDir, userAccount), false));
         addOption(new Option("Rust", new Rust(chrootDir), false));
+        addOption(new Option("Code Editor", new CodeEditor(chrootDir, userAccount), false));
     }
 }

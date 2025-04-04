@@ -108,6 +108,11 @@ public final class ShellUtil {
                 .toList();
     }
 
+    public static List<String> getCommandRunChrootAsUser(String command, String username, String chrootDir) {
+        return List.of(ARCH_CHROOT_COMMAND, "-u", username, chrootDir,
+                "export HOME=\"/home/%s\"; %s".formatted(username, command));
+    }
+
     private static void logCommandExecutionStatus(int exitValue, List<String> command) {
         if (exitValue != 0) {
             log.error(COMMAND_EXECUTION_FAILURE_MESSAGE, command);
