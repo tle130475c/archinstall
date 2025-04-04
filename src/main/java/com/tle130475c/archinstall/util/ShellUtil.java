@@ -109,7 +109,7 @@ public final class ShellUtil {
     }
 
     public static List<String> getCommandRunChrootAsUser(String command, String username, String chrootDir) {
-        return List.of(ARCH_CHROOT_COMMAND, "-u", username, chrootDir,
+        return List.of(ARCH_CHROOT_COMMAND, "-u", username, chrootDir, "bash", "-c",
                 "export HOME=\"/home/%s\"; %s".formatted(username, command));
     }
 
