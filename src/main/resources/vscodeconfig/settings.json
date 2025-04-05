@@ -1,0 +1,46 @@
+{
+  "window.titleBarStyle": "custom",
+  "editor.rulers": [80, 120, 140],
+  "redhat.telemetry.enabled": false,
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.renderWhitespace": "all",
+  "editor.formatOnPaste": true,
+  "javascript.referencesCodeLens.enabled": true,
+  "javascript.referencesCodeLens.showOnAllFunctions": true,
+  "typescript.referencesCodeLens.enabled": true,
+  "typescript.referencesCodeLens.showOnAllFunctions": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.allowForcePush": true,
+  "java.referencesCodeLens.enabled": true,
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "workbench.startupEditor": "none",
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "vscode-edge-devtools.webhintInstallNotification": true,
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.fontFamily": "Adwaita Mono, Cascadia Mono, 'Droid Sans Mono', 'monospace', monospace",
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.fontSize": 16
+}
