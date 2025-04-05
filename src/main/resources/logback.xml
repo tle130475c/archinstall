@@ -1,6 +1,8 @@
 <configuration>
+    <timestamp key="tle130475cDatetime" datePattern="yyyyMMdd'T'HHmmss.SSS" />
+
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/tmp/tle130475c_logs/archinstall.log</file>
+        <file>/tmp/tle130475c_archinstall_${tle130475cDatetime}.log</file>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
         </encoder>
