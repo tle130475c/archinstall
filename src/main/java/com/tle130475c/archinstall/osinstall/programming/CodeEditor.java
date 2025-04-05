@@ -60,9 +60,9 @@ public class CodeEditor implements Installable {
 
     private List<String> getInsiderExtensionInstallCommand(String extension) {
         if (chrootDir == null) {
-            return List.of("code-insiders", "--install-extension", extension);
+            return List.of("code-insiders", "--install-extension", extension, "--pre-release");
         } else {
-            String cmd = "code-insiders --install-extension %s".formatted(extension);
+            String cmd = "code-insiders --install-extension %s --pre-release".formatted(extension);
             return getCommandRunChrootAsUser(cmd, userAccount.getUsername(), chrootDir);
         }
     }
