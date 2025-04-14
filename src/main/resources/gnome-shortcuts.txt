@@ -2,5 +2,5 @@ nautilus, Nautilus, <Super>e, nautilus
 gnome-terminal, GNOME Terminal, <Primary><Alt>t, gnome-terminal
 google-chrome, Google Chrome, <Primary><Alt>c, google-chrome-stable
 keepassxc, KeePassXC, <Primary><Alt>p, keepassxc
-emacs, Emacs, <Primary><Alt>e, emacs
+emacs-wayland, Emacs, <Primary><Alt>e, emacs
 krusader, Krusader, <Super>k, krusader
