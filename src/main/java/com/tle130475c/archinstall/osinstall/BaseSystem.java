@@ -90,7 +90,7 @@ public class BaseSystem {
     public void installEssentialPackages() throws InterruptedException, IOException {
         runVerbose(List.of("pacstrap", CHROOT_DIR, "base", "base-devel", "linux", "linux-headers", "linux-firmware",
                 "man-pages", "man-db", "iptables-nft", "pipewire", "pipewire-pulse", "pipewire-alsa", "alsa-utils",
-                "gst-plugin-pipewire", "wireplumber"));
+                "gst-plugin-pipewire", "wireplumber", "bash-completion", "nfs-utils", "vim"));
     }
 
     public void disableMakePkgDebug() throws IOException {
