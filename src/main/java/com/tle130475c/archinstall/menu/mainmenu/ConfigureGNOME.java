@@ -20,7 +20,7 @@ public class ConfigureGNOME implements Runnable {
         String username = null;
 
         try {
-            ConfigReader configReader = new ConfigReader("install-info.xml");
+            ConfigReader configReader = new ConfigReader("install_info.xml");
             username = configReader.getUsername();
         } catch (SAXException | IOException | ParserConfigurationException | XPathExpressionException e) {
             System.console().printf("Username: ");

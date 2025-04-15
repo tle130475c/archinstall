@@ -33,7 +33,7 @@ import com.tle130475c.archinstall.util.ConfigReader;
 import com.tle130475c.archinstall.util.NetworkUtil;
 
 public class InstallSystem implements Runnable {
-    private static final String CONFIG_XML = "install-info.xml";
+    private static final String CONFIG_XML = "install_info.xml";
     private SystemInfo systemInfo;
     private UserAccount userAccount;
 

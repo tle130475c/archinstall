@@ -20,7 +20,7 @@ public class ConfigureLUKSAutoMount implements Runnable {
     public void run() {
         if (confirmDefaultYes(getConfirmation(":: Proceed with configuring LUKS partitions auto mount? [Y/n] "))) {
             try {
-                ConfigReader configReader = new ConfigReader("install-info.xml");
+                ConfigReader configReader = new ConfigReader("install_info.xml");
                 List<LUKSPartition> partitions = configReader.getLUKSAutoMountPartitions();
                 String username = configReader.getUsername();
 

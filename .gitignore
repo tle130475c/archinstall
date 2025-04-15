@@ -35,7 +35,7 @@ build/
 .DS_Store
 
 ### private informations ###
-install-info.xml
+install_info.xml
 
 ### logging
 logs/

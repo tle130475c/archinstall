@@ -30,12 +30,12 @@ public class SetupFTPServer implements Runnable {
                 uncommentLine(PATH_TO_VSFTPD_CONF, "#local_enable=YES");
                 uncommentLine(PATH_TO_VSFTPD_CONF, "#chroot_local_user=YES");
                 Files.writeString(Paths.get(PATH_TO_VSFTPD_CONF),
-                        "%nlocal_root=/home/%s/ftp-root%n".formatted(username), StandardOpenOption.APPEND);
-                runVerbose(List.of("mkdir", "-p", "/home/%s/ftp-root/upload".formatted(username)));
-                runVerbose(List.of("chmod", "550", "/home/%s/ftp-root".formatted(username)));
-                runVerbose(List.of("chmod", "750", "/home/%s/ftp-root/upload".formatted(username)));
+                        "%nlocal_root=/home/%s/ftp_root%n".formatted(username), StandardOpenOption.APPEND);
+                runVerbose(List.of("mkdir", "-p", "/home/%s/ftp_root/upload".formatted(username)));
+                runVerbose(List.of("chmod", "550", "/home/%s/ftp_root".formatted(username)));
+                runVerbose(List.of("chmod", "750", "/home/%s/ftp_root/upload".formatted(username)));
                 runVerbose(List.of("chown", "-R", "%s:%s".formatted(username, username),
-                        "/home/%s/ftp-root".formatted(username)));
+                        "/home/%s/ftp_root".formatted(username)));
                 enableService(VSFTPD, null);
                 startService(VSFTPD, null);
             } catch (InterruptedException | IOException e) {
