@@ -31,5 +31,7 @@ public class MainMenu extends SingleChoiceMenu {
         addOption(new Option("Configure GNOME (GNOME, installed system)", new ConfigureGNOME(), false));
         addOption(new Option("Install Xrdp (installed system)", new InstallXrdp(), false));
         addOption(new Option("Setup FTP Server (installed system, sudo)", new SetupFTPServer(), false));
+        addOption(new Option("Install Kerberos NFS Server (installed system, sudo)", new InstallKerberosNfsServer(), false));
+        addOption(new Option("Install Kerberos NFS Client (installed system, sudo)", new InstallKerberosNfsClient(), false));
     }
 }

@@ -13,6 +13,9 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.xml.sax.SAXException;
 
+import com.tle130475c.archinstall.osinstall.networking.kerberos.KerberosClient;
+import com.tle130475c.archinstall.osinstall.networking.kerberos.KerberosServer;
+import com.tle130475c.archinstall.osinstall.networking.nfs.NfsShareDirectory;
 import com.tle130475c.archinstall.partition.LUKSPartition;
 import com.tle130475c.archinstall.partition.Partition;
 import com.tle130475c.archinstall.partition.PartitionLayoutInfo;
@@ -146,5 +149,47 @@ public class ConfigReader {
         boolean isHidden = Boolean.parseBoolean(xmlReader.getValue("//wirelessNetwork/isHidden"));
 
         return new WirelessNetwork(ssid, password, interfaceName, isHidden);
+    }
+
+    public KerberosServer getKerberosServer() throws XPathExpressionException {
+        String ip = xmlReader.getValue("//kerberos/server/ip");
+        String domain = xmlReader.getValue("//kerberos/server/domain");
+        String hostname = xmlReader.getValue("//kerberos/server/hostname");
+        String realm = xmlReader.getValue("//kerberos/server/realm");
+        String masterKey = xmlReader.getValue("//kerberos/server/masterKey");
+        String adminUser = xmlReader.getValue("//kerberos/server/adminUser");
+        String adminPassword = xmlReader.getValue("//kerberos/server/adminPassword");
+        String user = xmlReader.getValue("//kerberos/server/user");
+        String userPassword = xmlReader.getValue("//kerberos/server/userPassword");
+
+        return new KerberosServer(ip, domain, hostname, realm, masterKey, adminUser, adminPassword, user, userPassword);
+    }
+
+    public List<KerberosClient> getKerberosClients() throws XPathExpressionException {
+        List<KerberosClient> clients = new ArrayList<>();
+
+        for (int i = 0; i < Integer.parseInt(xmlReader.getValue("count(//kerberos/clients/client)")); i++) {
+            String ip = xmlReader.getValue("//kerberos/clients/client[%d]/ip".formatted(i + 1));
+            String domain = xmlReader.getValue("//kerberos/clients/client[%d]/domain".formatted(i + 1));
+            String hostname = xmlReader.getValue("//kerberos/clients/client[%d]/hostname".formatted(i + 1));
+
+            clients.add(new KerberosClient(ip, domain, hostname));
+        }
+
+        return clients;
+    }
+
+    public List<NfsShareDirectory> getNfsShareDirectories() throws XPathExpressionException {
+        List<NfsShareDirectory> directories = new ArrayList<>();
+
+        for (int i = 0; i < Integer.parseInt(xmlReader.getValue("count(//nfs/server/directories/directory)")); i++) {
+            String name = xmlReader.getValue("//nfs/server/directories/directory[%d]/name".formatted(i + 1));
+            String path = xmlReader.getValue("//nfs/server/directories/directory[%d]/path".formatted(i + 1));
+            String options = xmlReader.getValue("//nfs/server/directories/directory[%d]/options".formatted(i + 1));
+
+            directories.add(new NfsShareDirectory(name, path, options));
+        }
+
+        return directories;
     }
 }

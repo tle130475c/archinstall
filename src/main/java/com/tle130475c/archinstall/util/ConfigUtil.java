@@ -100,6 +100,10 @@ public final class ConfigUtil {
         return manageSystemService("restart", service, chrootDir);
     }
 
+    public static int maskService(String service, String chrootDir) throws InterruptedException, IOException {
+        return manageSystemService("mask", service, chrootDir);
+    }
+
     public static void uncommentLine(String path, String linePattern) throws IOException {
         backupFile(path);
 
