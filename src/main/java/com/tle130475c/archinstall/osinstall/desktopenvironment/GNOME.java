@@ -53,7 +53,7 @@ public class GNOME implements Installable {
                 "xdg-desktop-portal-gnome", "gnome-disk-utility", "libappindicator-gtk3",
                 "transmission-gtk", "power-profiles-daemon", "gvfs-smb", "gvfs-google", "gvfs-mtp", "gvfs-nfs",
                 "gnome-logs", "evolution", "evolution-ews", "evolution-on", "gnome-software",
-                "gnome-boxes", "gnome-remote-desktop", "gnome-connections"), chrootDir);
+                "gnome-boxes", "gnome-remote-desktop", "gnome-connections", "gedit", "gedit-plugins"), chrootDir);
         installPkgs(List.of(IBUS_BAMBOO_PACKAGE), userAccount, chrootDir);
 
         return 0;
