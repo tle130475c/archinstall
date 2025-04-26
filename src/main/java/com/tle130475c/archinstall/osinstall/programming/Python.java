@@ -18,7 +18,7 @@ public class Python implements Installable {
     public int install() throws InterruptedException, IOException {
         installMainReposPkgs(List.of("python", "jupyterlab", "python-nltk", "python-pandas", "python-pip",
                 "python-numpy", "python-scikit-learn", "tk", "python-matplotlib", "python-docs", "autopep8",
-                "python-requests", "python-beautifulsoup4", "python-pygame", "python-networkx"), chrootDir);
+                "python-requests", "python-beautifulsoup4", "python-pygame", "python-networkx", "uv"), chrootDir);
 
         return 0;
     }
