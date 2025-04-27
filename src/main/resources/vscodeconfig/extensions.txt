@@ -19,6 +19,7 @@ davidanson.vscode-markdownlint
 dbaeumer.vscode-eslint
 devkir.elixir-syntax-vscode
 dmitry-korobchenko.prototxt
+docker.docker
 donjayamanne.githistory
 donjayamanne.python-environment-manager
 donjayamanne.python-extension-pack
@@ -150,4 +151,5 @@ wayou.vscode-todo-highlight
 wholroyd.jinja
 wmaurer.change-case
 yuce.erlang-otp
+yy0931.save-as-root
 ziyasal.vscode-open-in-github
