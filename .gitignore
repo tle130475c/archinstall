@@ -36,6 +36,7 @@ build/
 
 ### private informations ###
 install_info.xml
+copy_os_install_material.sh
 
 ### logging
 logs/
