@@ -34,5 +34,6 @@ public class MainMenu extends SingleChoiceMenu {
         addOption(new Option("Install Kerberos NFS Server (installed system, sudo)", new InstallKerberosNfsServer(), false));
         addOption(new Option("Install Kerberos NFS Client (installed system, sudo)", new InstallKerberosNfsClient(), false));
         addOption(new Option("Mount NFS4 Share (installed system, sudo)", new MountNfs4Share(), false));
+        addOption(new Option("Install VMware (installed system)", new InstallVMware(), false));
     }
 }
