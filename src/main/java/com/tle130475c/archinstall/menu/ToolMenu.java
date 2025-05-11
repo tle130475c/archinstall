@@ -1,5 +1,6 @@
 package com.tle130475c.archinstall.menu;
 
+import com.tle130475c.archinstall.osinstall.tool.Ansible;
 import com.tle130475c.archinstall.osinstall.tool.Browser;
 import com.tle130475c.archinstall.osinstall.tool.CoreTool;
 import com.tle130475c.archinstall.osinstall.tool.DiskImageTool;
@@ -25,5 +26,6 @@ public class ToolMenu extends MultiChoiceMenu {
         addOption(new Option("Remote Desktop", new RemoteDesktop(chrootDir), false));
         addOption(new Option("Game", new Game(chrootDir, userAccount), false));
         addOption(new Option("Mullvad", new Mullvad(chrootDir, userAccount), false));
+        addOption(new Option("Ansible", new Ansible(chrootDir), false));
     }
 }
