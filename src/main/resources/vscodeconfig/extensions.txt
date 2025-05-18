@@ -44,6 +44,7 @@ howardzuo.vscode-git-tags
 humao.rest-client
 idleberg.applescript
 jakebathman.mysql-syntax
+janisdd.vscode-edit-csv
 jbockle.jbockle-format-files
 jeff-hykin.better-c-syntax
 jeff-hykin.better-cpp-syntax
@@ -114,6 +115,7 @@ pinage404.bash-extension-pack
 pkief.material-icon-theme
 radium-v.better-less
 redcmd.tmlanguage-syntax-highlighter
+redhat.ansible
 redhat.java
 redhat.vscode-community-server-connector
 redhat.vscode-rsp-ui
