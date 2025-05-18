@@ -41,6 +41,40 @@ public class CodeEditor implements Installable {
         return 0;
     }
 
+    public void installCodeStableExtensions() {
+        try (var reader = new InputStreamReader(
+                Thread.currentThread().getContextClassLoader().getResourceAsStream("vscodeconfig/extensions.txt"))) {
+            Stream<String> extensions = new BufferedReader(reader).lines();
+            extensions.forEach(extension -> {
+                try {
+                    runVerbose(getExtensionInstallCommand(extension));
+                } catch (IOException | InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    e.printStackTrace();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void installCodeInsidersExtensions() {
+        try (var reader = new InputStreamReader(
+                Thread.currentThread().getContextClassLoader().getResourceAsStream("vscodeconfig/extensions.txt"))) {
+            Stream<String> extensions = new BufferedReader(reader).lines();
+            extensions.forEach(extension -> {
+                try {
+                    runVerbose(getInsiderExtensionInstallCommand(extension));
+                } catch (IOException | InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    e.printStackTrace();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void copyUserSettings(String settingsPath) throws IOException, InterruptedException {
         try (var inputStream = Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream("vscodeconfig/settings.json")) {
