@@ -1,5 +1,6 @@
 package com.tle130475c.archinstall.osinstall.tool;
 
+import static com.tle130475c.archinstall.util.ConfigUtil.addUserToGroup;
 import static com.tle130475c.archinstall.util.ConfigUtil.enableService;
 import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.installPkgs;
@@ -25,7 +26,7 @@ public class CoreTool implements Installable {
                 "bash-completion", "flatpak", "tree", "archiso", "rclone", "rsync", "lm_sensors",
                 "ntfs-3g", "gparted", "exfatprogs", "pdftk", "ufw", "ufw-extras", "filezilla",
                 "texlive", "texlive-lang", "krusader", "gptfdisk", "ventoy-bin", "kio5-extras",
-                "gnome-characters", "reflector", "dislocker", "smartmontools"), userAccount, chrootDir);
+                "gnome-characters", "reflector", "dislocker", "smartmontools", "ddcutil"), userAccount, chrootDir);
 
         installMainReposPkgs(List.of("ktexteditor5"), chrootDir); // TODO: dependency of krusader, can be removed in the future
 
@@ -35,6 +36,7 @@ public class CoreTool implements Installable {
     @Override
     public int config() throws IOException, InterruptedException {
         enableService("ufw", chrootDir);
+        addUserToGroup(userAccount.getUsername(), "i2c", chrootDir);
         return 0;
     }
 }
