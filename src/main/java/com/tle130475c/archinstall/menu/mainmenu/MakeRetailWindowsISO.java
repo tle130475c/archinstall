@@ -38,7 +38,8 @@ public class MakeRetailWindowsISO implements Runnable {
                         [Channel]
                         Retail
                         """;
-            } else if (windowsISOLocationPath.getFileName().toString().contains("Win11")) {
+            } else if (windowsISOLocationPath.getFileName().toString().contains("Win11")
+                    || windowsISOLocationPath.getFileName().toString().contains("windows_11")) {
                 System.console().printf("Windows 11 iso detected...\n");
                 eiCfgContent = """
                         [EditionID]
