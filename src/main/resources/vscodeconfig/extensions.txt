@@ -10,6 +10,7 @@ bierner.lit-html
 bmewburn.vscode-intelephense-client
 boyswan.glsl-literal
 celianriboulet.webvalidator
+charliermarsh.ruff
 christian-kohler.npm-intellisense
 christian-kohler.path-intellisense
 codezombiech.gitignore
@@ -73,6 +74,7 @@ mariomatheu.syntax-project-pbxproj
 mechatroner.rainbow-csv
 mhutchie.git-graph
 mkhl.direnv
+ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
 ms-dotnettools.csdevkit
 ms-dotnettools.csharp
@@ -117,7 +119,10 @@ radium-v.better-less
 redcmd.tmlanguage-syntax-highlighter
 redhat.ansible
 redhat.java
+redhat.vscode-apache-camel
 redhat.vscode-community-server-connector
+redhat.vscode-microprofile
+redhat.vscode-quarkus
 redhat.vscode-rsp-ui
 redhat.vscode-xml
 redhat.vscode-yaml
