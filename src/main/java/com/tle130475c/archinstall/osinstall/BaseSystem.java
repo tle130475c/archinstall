@@ -90,7 +90,8 @@ public class BaseSystem {
     public void installEssentialPackages() throws InterruptedException, IOException {
         runVerbose(List.of("pacstrap", CHROOT_DIR, "base", "base-devel", "linux", "linux-headers", "linux-firmware",
                 "man-pages", "man-db", "iptables-nft", "pipewire", "pipewire-pulse", "pipewire-alsa", "alsa-utils",
-                "gst-plugin-pipewire", "wireplumber", "bash-completion", "nfs-utils", "gvim"));
+                "gst-plugin-pipewire", "wireplumber", "bash-completion", "nfs-utils", "gvim", "linux-lts",
+                "linux-lts-headers"));
     }
 
     public void disableMakePkgDebug() throws IOException {
@@ -242,24 +243,13 @@ public class BaseSystem {
         buildInitramfsImageMkinitcpio();
     }
 
-    public void configureSystemdBootloader() throws InterruptedException, IOException {
-        installMainReposPkgs(List.of("efibootmgr", "intel-ucode"), CHROOT_DIR);
-
-        List<String> command = List.of("bootctl", "--esp-path=/efi", "--boot-path=/boot", "install");
-        runVerbose(getCommandRunChroot(command, CHROOT_DIR));
-
-        try (var writer = new PrintWriter(CHROOT_DIR + "/efi/loader/loader.conf")) {
-            writer.println("default archlinux");
-            writer.println("timeout 5");
-            writer.println("console-mode keep");
-            writer.println("editor no");
-        }
-
-        try (var writer = new PrintWriter(CHROOT_DIR + "/boot/loader/entries/archlinux.conf")) {
-            writer.println("title Arch Linux");
-            writer.println("linux /vmlinuz-linux");
+    private void addSystemdBootEntry(String title, String entryFilename, String kernelPath, String initrdImgPath)
+            throws IOException, InterruptedException {
+        try (var writer = new PrintWriter(CHROOT_DIR + "/boot/loader/entries/" + entryFilename)) {
+            writer.println("title " + title);
+            writer.println("linux " + kernelPath);
             writer.println("initrd /intel-ucode.img");
-            writer.println("initrd /initramfs-linux.img");
+            writer.println("initrd " + initrdImgPath);
 
             configureMkinitcpioForHibernation();
             if (systemInfo.getPartitionLayout() instanceof LVMOnLUKSPartitionLayout layout) {
@@ -273,6 +263,26 @@ public class BaseSystem {
                 writer.println(" resume=UUID=%s rw".formatted(layout.getSwap().getUUID()));
             }
         }
+    }
+
+    public void configureSystemdBootloader() throws InterruptedException, IOException {
+        installMainReposPkgs(List.of("efibootmgr", "intel-ucode"), CHROOT_DIR);
+
+        List<String> command = List.of("bootctl", "--esp-path=/efi", "--boot-path=/boot", "install");
+        runVerbose(getCommandRunChroot(command, CHROOT_DIR));
+
+        try (var writer = new PrintWriter(CHROOT_DIR + "/efi/loader/loader.conf")) {
+            writer.println("default archlinux");
+            writer.println("timeout 5");
+            writer.println("console-mode keep");
+            writer.println("editor no");
+        }
+
+        // Add entry for standard kernel
+        addSystemdBootEntry("Arch Linux", "archlinux.conf", "/vmlinuz-linux", "/initramfs-linux.img");
+
+        // Add entry for LTS kernel
+        addSystemdBootEntry("Arch Linux LTS", "archlinux-lts.conf", "/vmlinuz-linux-lts", "/initramfs-linux-lts.img");
     }
 
     public void configureGRUBBootloader() throws InterruptedException, IOException {
