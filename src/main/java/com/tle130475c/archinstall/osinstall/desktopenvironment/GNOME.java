@@ -139,9 +139,6 @@ public class GNOME implements Installable {
         gSettingsSet("org.gnome.desktop.media-handling", "automount", "false");
         gSettingsSet("org.gnome.desktop.media-handling", "automount-open", "false");
 
-        // disable tap-to-click
-        gSettingsSet("org.gnome.desktop.peripherals.touchpad", "tap-to-click", "false");
-
         // app switching include app from the current workspace only
         gSettingsSet(GNOME_APP_SWITCHER_SCHEMA, "current-workspace-only", "true");
     }
