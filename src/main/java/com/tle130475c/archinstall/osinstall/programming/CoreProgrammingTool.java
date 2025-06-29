@@ -22,7 +22,8 @@ public class CoreProgrammingTool implements Installable {
         installPkgs(List.of("git", "github-cli", "kdiff3", "valgrind", "kruler",
                 "visual-studio-code-bin", "postman-bin", "emacs-wayland", "gvim", "bash-language-server",
                 "kate", "dbeaver", "dbeaver-plugin-office", "dbeaver-plugin-svg-format", "powershell-bin",
-                "azure-cli", "direnv", "visual-studio-code-insiders-bin", "git-lfs"), userAccount, chrootDir);
+                "azure-cli", "direnv", "visual-studio-code-insiders-bin", "git-lfs", "openrefine"),
+                userAccount, chrootDir);
 
         return 0;
     }
