@@ -31,12 +31,23 @@ public class MainMenu extends SingleChoiceMenu {
         addOption(new Option("Configure GNOME (GNOME, installed system)", new ConfigureGNOME(), false));
         addOption(new Option("Install Xrdp (installed system)", new InstallXrdp(), false));
         addOption(new Option("Setup FTP Server (installed system, sudo)", new SetupFTPServer(), false));
-        addOption(new Option("Install Kerberos NFS Server (installed system, sudo)", new InstallKerberosNfsServer(), false));
-        addOption(new Option("Install Kerberos NFS Client (installed system, sudo)", new InstallKerberosNfsClient(), false));
+        addOption(new Option("Install Kerberos NFS Server (installed system, sudo)", new InstallKerberosNfsServer(),
+                false));
+        addOption(new Option("Install Kerberos NFS Client (installed system, sudo)", new InstallKerberosNfsClient(),
+                false));
         addOption(new Option("Mount NFS4 Share (installed system, sudo)", new MountNfs4Share(), false));
         addOption(new Option("Install VMware (installed system)", new InstallVMware(), false));
         addOption(new Option("Install Code Extensions (installed system)", new InstallCodeExtensions(), false));
-        addOption(new Option("Install Code Insiders Extensions (installed system)", new InstallCodeInsiderExtensions(), false));
+        addOption(new Option("Install Code Insiders Extensions (installed system)", new InstallCodeInsiderExtensions(),
+                false));
+        addOption(new Option("Mount LVM on LUKS (live system)",
+                new MountLVMOnLUKS(), false));
+        addOption(new Option("Mount LVM on LUKS Dual Boot Windows (live system)",
+                new MountLVMOnLUKSDualBootWindows(), false));
+        addOption(new Option("Unmount LVM on LUKS (live system)",
+                new UnmountLVMOnLUKS(), false));
+        addOption(new Option("Unmount LVM on LUKS Dual Boot Windows (live system)",
+                new UnmountLVMOnLUKSDualBootWindows(), false));
         addOption(new Option("Create UEFI Boot Entry Manually", new CreateUEFIBootEntryManually(), false));
     }
 }
