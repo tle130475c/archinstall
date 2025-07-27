@@ -37,5 +37,6 @@ public class MainMenu extends SingleChoiceMenu {
         addOption(new Option("Install VMware (installed system)", new InstallVMware(), false));
         addOption(new Option("Install Code Extensions (installed system)", new InstallCodeExtensions(), false));
         addOption(new Option("Install Code Insiders Extensions (installed system)", new InstallCodeInsiderExtensions(), false));
+        addOption(new Option("Create UEFI Boot Entry Manually", new CreateUEFIBootEntryManually(), false));
     }
 }
