@@ -23,7 +23,7 @@ public class CreateUEFIBootEntryManually implements Runnable {
         List<String> command = List.of("efibootmgr", "--create",
                 "--disk", "/dev/%s".formatted(diskName),
                 "--part", "1",
-                "--loader", "'\\EFI\\systemd\\systemd-bootx64.efi'",
+                "--loader", "\\EFI\\systemd\\systemd-bootx64.efi",
                 "--label", "archlinux",
                 "--unicode");
 
