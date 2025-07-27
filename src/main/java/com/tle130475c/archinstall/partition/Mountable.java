@@ -18,6 +18,10 @@ public interface Mountable {
         runVerbose(List.of("mount", getPath(), getMountPoint()));
     }
 
+    default void unmount() throws IOException, InterruptedException {
+        runVerbose(List.of("umount", getMountPoint()));
+    }
+
     default String getUUID() throws IOException, InterruptedException {
         return runGetOutput(List.of("blkid", "-s", "UUID", "-o", "value", getPath()));
     }

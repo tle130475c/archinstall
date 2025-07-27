@@ -154,6 +154,14 @@ public final class DiskUtil {
         return logicalVolume;
     }
 
+    public static void activeVolumeGroup(String vgName) throws IOException, InterruptedException {
+        runVerbose(List.of("vgchange", "-a", "y", vgName));
+    }
+
+    public static void deactiveVolumeGroup(String vgName) throws IOException, InterruptedException {
+        runVerbose(List.of("vgchange", "-a", "n", vgName));
+    }
+
     public static Partition createLUKSContainer(Partition partition, String password)
             throws IOException, InterruptedException {
         runSetInput(List.of(CRYPTSETUP, "luksFormat", "--type", "luks2", partition.getPath()),
@@ -167,6 +175,10 @@ public final class DiskUtil {
         runSetInput(List.of(CRYPTSETUP, "open", partition.getPath(), luksMapperName), List.of(password));
 
         return partition;
+    }
+
+    public static void closeLUKSContainer(String luksMapperName) throws IOException, InterruptedException {
+        runVerbose(List.of(CRYPTSETUP, "close", luksMapperName));
     }
 
     public static Partition createEncryptedPartitionUsingLUKS(String diskName, int partitionNumber,
@@ -231,7 +243,14 @@ public final class DiskUtil {
 
     public static void makeSwap(String pathToDevice) throws InterruptedException, IOException {
         runVerbose(List.of("mkswap", pathToDevice));
+    }
+
+    public static void swapOn(String pathToDevice) throws InterruptedException, IOException {
         runVerbose(List.of("swapon", pathToDevice));
+    }
+
+    public static void swapOff(String pathToDevice) throws InterruptedException, IOException {
+        runVerbose(List.of("swapoff", pathToDevice));
     }
 
     public static void formatFAT32(String pathToDevice) throws InterruptedException, IOException {

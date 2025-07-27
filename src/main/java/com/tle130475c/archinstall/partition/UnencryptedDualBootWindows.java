@@ -30,6 +30,21 @@ public class UnencryptedDualBootWindows implements PartitionLayout {
     }
 
     @Override
+    public String getDiskName() {
+        return diskName;
+    }
+
+    @Override
+    public Partition getESP() {
+        return espPartition;
+    }
+
+    @Override
+    public Partition getXbootldr() {
+        return xbootldrPartition;
+    }
+
+    @Override
     public Partition getRoot() {
         return rootPartition;
     }
@@ -53,12 +68,5 @@ public class UnencryptedDualBootWindows implements PartitionLayout {
         formatFAT32(xbootldrPartition.getPath());
         makeSwap(swapPartition.getPath());
         formatEXT4(rootPartition.getPath());
-    }
-
-    @Override
-    public void mount() throws InterruptedException, IOException {
-        rootPartition.mount();
-        espPartition.mount();
-        xbootldrPartition.mount();
     }
 }

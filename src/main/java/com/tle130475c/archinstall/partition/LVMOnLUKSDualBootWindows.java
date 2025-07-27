@@ -1,11 +1,12 @@
 package com.tle130475c.archinstall.partition;
 
+import static com.tle130475c.archinstall.util.DiskUtil.closeLUKSContainer;
 import static com.tle130475c.archinstall.util.DiskUtil.createLUKSContainer;
 import static com.tle130475c.archinstall.util.DiskUtil.createLVMLogicalVolume;
 import static com.tle130475c.archinstall.util.DiskUtil.createLVMPhysicalVolume;
 import static com.tle130475c.archinstall.util.DiskUtil.createLVMVolumeGroup;
-import static com.tle130475c.archinstall.util.DiskUtil.createLinuxLUKSPartition;
-import static com.tle130475c.archinstall.util.DiskUtil.createXBOOTLDRPartition;
+import static com.tle130475c.archinstall.util.DiskUtil.createPartition;
+import static com.tle130475c.archinstall.util.DiskUtil.deactiveVolumeGroup;
 import static com.tle130475c.archinstall.util.DiskUtil.formatEXT4;
 import static com.tle130475c.archinstall.util.DiskUtil.formatFAT32;
 import static com.tle130475c.archinstall.util.DiskUtil.makeSwap;
@@ -18,16 +19,10 @@ import com.tle130475c.archinstall.systeminfo.StorageDeviceSize;
 
 public class LVMOnLUKSDualBootWindows implements LVMOnLUKSPartitionLayout {
     private final String diskName;
-    private final StorageDeviceSize xbootldrSize;
-    private final StorageDeviceSize swapSize;
 
     private Partition espPartition;
     private Partition xbootldrPartition;
     private Partition linuxLUKSPartition;
-
-    private static final String LUKS_MAPPER_NAME = "encrypt-lvm";
-    private static final String VG_NAME = "vg-system";
-    private static final String LUKS_MAPPER_DEVICE_PATH = "/dev/mapper/%s".formatted(LUKS_MAPPER_NAME);
     private LogicalVolume swapVolume;
     private LogicalVolume rootVolume;
     private final String password;
@@ -38,19 +33,38 @@ public class LVMOnLUKSDualBootWindows implements LVMOnLUKSPartitionLayout {
             StorageDeviceSize swapSize,
             String password) {
         this.diskName = diskName;
-        this.xbootldrSize = xbootldrSize;
-        this.swapSize = swapSize;
         this.password = password;
+
+        espPartition = new Partition(diskName, 1, "/mnt/efi");
+        xbootldrPartition = new Partition(diskName, 5, "ea00", "XBOOTLDR", xbootldrSize, "/mnt/boot");
+        linuxLUKSPartition = new Partition(diskName, 6, "8309", "luks-encrypted", null, null);
+        swapVolume = new LogicalVolume(getVolumeGroupName(), "swap", swapSize, null);
+        rootVolume = new LogicalVolume(getVolumeGroupName(), "root", null, "/mnt");
     }
 
     @Override
-    public String getLUKSMapperName() {
-        return LUKS_MAPPER_NAME;
+    public String getPassword() {
+        return password;
     }
 
     @Override
     public Partition getLinuxLUKSPartition() {
         return linuxLUKSPartition;
+    }
+
+    @Override
+    public String getDiskName() {
+        return diskName;
+    }
+
+    @Override
+    public Partition getESP() {
+        return espPartition;
+    }
+
+    @Override
+    public Partition getXbootldr() {
+        return xbootldrPartition;
     }
 
     @Override
@@ -65,33 +79,26 @@ public class LVMOnLUKSDualBootWindows implements LVMOnLUKSPartitionLayout {
 
     @Override
     public void create() throws InterruptedException, IOException {
-        espPartition = new Partition(diskName, 1, "/mnt/efi");
-        xbootldrPartition = createXBOOTLDRPartition(diskName, 5, xbootldrSize, "/mnt/boot");
-        linuxLUKSPartition = createLinuxLUKSPartition(diskName, 6, null);
-        swapVolume = new LogicalVolume(VG_NAME, "swap", swapSize, null);
-        rootVolume = new LogicalVolume(VG_NAME, "root", null, "/mnt");
-
+        createPartition(xbootldrPartition);
         wipeDeviceSignature(xbootldrPartition.getPath());
+
+        createPartition(linuxLUKSPartition);
         wipeDeviceSignature(linuxLUKSPartition.getPath());
 
         createLUKSContainer(linuxLUKSPartition, password);
-        openLUKSContainer(linuxLUKSPartition, LUKS_MAPPER_NAME, password);
-        wipeDeviceSignature(LUKS_MAPPER_DEVICE_PATH);
+        openLUKSContainer(linuxLUKSPartition, getLUKSMapperName(), password);
+        wipeDeviceSignature(getLUKSMapperDevicePath());
 
-        createLVMPhysicalVolume(LUKS_MAPPER_DEVICE_PATH);
-        createLVMVolumeGroup(LUKS_MAPPER_DEVICE_PATH, VG_NAME);
+        createLVMPhysicalVolume(getLUKSMapperDevicePath());
+        createLVMVolumeGroup(getLUKSMapperDevicePath(), getVolumeGroupName());
         createLVMLogicalVolume(swapVolume);
         createLVMLogicalVolume(rootVolume);
 
         formatFAT32(xbootldrPartition.getPath());
         makeSwap(swapVolume.getPath());
         formatEXT4(rootVolume.getPath());
-    }
 
-    @Override
-    public void mount() throws InterruptedException, IOException {
-        rootVolume.mount();
-        espPartition.mount();
-        xbootldrPartition.mount();
+        deactiveVolumeGroup(getVolumeGroupName());
+        closeLUKSContainer(getLUKSMapperName());
     }
 }
