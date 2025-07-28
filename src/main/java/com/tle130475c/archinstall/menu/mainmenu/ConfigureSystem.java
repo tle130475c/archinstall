@@ -72,5 +72,6 @@ public class ConfigureSystem implements Runnable {
         installFlatpakPackages(List.of("org.goldendict.GoldenDict"));
         installFlatpakPackages(List.of("com.usebottles.bottles"));
         installFlatpakPackages(List.of("com.belmoussaoui.Authenticator"));
+        installFlatpakPackages(List.of("com.github.tchx84.Flatseal"));
     }
 }
