@@ -16,8 +16,9 @@ public class Multimedia implements Installable {
 
     @Override
     public int install() throws InterruptedException, IOException {
-        installMainReposPkgs(List.of("vlc", "gst-libav", "gst-plugins-good", "gst-plugins-ugly", "gst-plugins-bad",
-                "obs-studio", "inkscape", "gimp", "kdenlive", "frei0r-plugins", "librecad"), chrootDir);
+        installMainReposPkgs(List.of("vlc", "vlc-plugins-all", "gst-libav", "gst-plugins-good", "gst-plugins-ugly",
+                "gst-plugins-bad", "obs-studio", "inkscape", "gimp", "kdenlive", "frei0r-plugins", "librecad"),
+                chrootDir);
 
         return 0;
     }
