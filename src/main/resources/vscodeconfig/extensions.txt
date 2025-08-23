@@ -1,4 +1,3 @@
-albert.tabout
 angular.ng-template
 bdavs.expect
 bmewburn.vscode-intelephense-client
@@ -94,6 +93,8 @@ streetsidesoftware.code-spell-checker
 teamsdevapp.vscode-ai-foundry
 tomoki1207.pdf
 tomwhite007.rename-angular-component
+visualstudioexptteam.intellicode-api-usage-examples
+visualstudioexptteam.vscodeintellicode
 vmware.vscode-boot-dev-pack
 vmware.vscode-spring-boot
 vscjava.vscode-gradle
