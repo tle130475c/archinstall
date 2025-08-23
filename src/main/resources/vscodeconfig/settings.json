@@ -1,7 +1,6 @@
 {
   "window.titleBarStyle": "custom",
   "editor.rulers": [80, 120, 140],
-  "redhat.telemetry.enabled": false,
   "workbench.iconTheme": "material-icon-theme",
   "editor.renderWhitespace": "all",
   "editor.formatOnPaste": true,
@@ -42,5 +41,9 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.fontSize": 16
+  "editor.fontSize": 16,
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "github.copilot.nextEditSuggestions.enabled": true
 }
