@@ -23,7 +23,7 @@ public class CoreProgrammingTool implements Installable {
                 "visual-studio-code-bin", "postman-bin", "emacs-wayland", "gvim", "bash-language-server",
                 "kate", "dbeaver", "dbeaver-plugin-office", "dbeaver-plugin-svg-format", "powershell-bin",
                 "azure-cli", "direnv", "visual-studio-code-insiders-bin", "git-lfs", "openrefine", "storageexplorer",
-                "subversion"),
+                "subversion", "azcopy"),
                 userAccount, chrootDir);
 
         return 0;
