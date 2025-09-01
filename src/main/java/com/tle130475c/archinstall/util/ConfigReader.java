@@ -84,9 +84,14 @@ public class ConfigReader {
         String password = xmlReader.getValue("//partitionLayout/password");
         Partition windowsPartition = new Partition(diskName,
                 Integer.parseInt(xmlReader.getValue("//partitionLayout/windowsPartNumber")));
+        Partition xbootldrPartition = new Partition(diskName,
+                Integer.parseInt(xmlReader.getValue("//partitionLayout/xbootldrPartNumber")));
+        Partition linuxLUKSPartition = new Partition(diskName,
+                Integer.parseInt(xmlReader.getValue("//partitionLayout/linuxLUKSPartNumber")));
         int option = Integer.parseInt(xmlReader.getValue("//partitionLayout/options/option/value"));
 
-        return new PartitionLayoutInfo(diskName, swapSize, rootSize, password, windowsPartition, option);
+        return new PartitionLayoutInfo(diskName, swapSize, rootSize, password, windowsPartition, xbootldrPartition,
+                linuxLUKSPartition, option);
     }
 
     public Set<Integer> getDriverOptions() throws NumberFormatException, XPathExpressionException {

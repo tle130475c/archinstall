@@ -59,8 +59,16 @@ public class PartitionLayoutMenu extends SingleChoiceMenu {
         };
 
         Runnable setLVMOnLUKSDualBootWindows = () -> {
+            System.console().printf("Enter XBOOTLDR partition number: ");
+            int xbootldrPartNumber = Integer.parseInt(System.console().readLine().trim());
+
+            System.console().printf("Enter Linux LUKS partition number: ");
+            int linuxLUKSPartNumber = Integer.parseInt(System.console().readLine().trim());
+
             String password = getLUKSPassword();
-            partitionLayout = new LVMOnLUKSDualBootWindows(diskName, XBOOTLDR_SIZE, swapSize, password);
+
+            partitionLayout = new LVMOnLUKSDualBootWindows(diskName, XBOOTLDR_SIZE, swapSize, password,
+                    xbootldrPartNumber, linuxLUKSPartNumber);
         };
 
         Runnable setLVMOnLUKSDualBootWindowsAutoResize = () -> {
@@ -99,7 +107,9 @@ public class PartitionLayoutMenu extends SingleChoiceMenu {
                 info.getSwapSize(), info.getPassword());
 
         Runnable setLVMOnLUKSDualBootWindows = () -> partitionLayout = new LVMOnLUKSDualBootWindows(info.getDiskName(),
-                XBOOTLDR_SIZE, info.getSwapSize(), info.getPassword());
+                XBOOTLDR_SIZE, info.getSwapSize(), info.getPassword(),
+                info.getXbootldrPartition().getPartitionNumber(),
+                info.getLinuxLUKSPartition().getPartitionNumber());
 
         Runnable setLVMOnLUKSDualBootWindowsAutoResize = () -> partitionLayout = new LVMOnLUKSDualBootWindowsAutoResize(
                 info.getDiskName(), XBOOTLDR_SIZE, info.getSwapSize(), info.getPassword(), info.getWindowsPartition(),

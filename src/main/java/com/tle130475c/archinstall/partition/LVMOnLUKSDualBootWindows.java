@@ -31,13 +31,15 @@ public class LVMOnLUKSDualBootWindows implements LVMOnLUKSPartitionLayout {
             String diskName,
             StorageDeviceSize xbootldrSize,
             StorageDeviceSize swapSize,
-            String password) {
+            String password,
+            int xbootldrPartNumber,
+            int linuxLUKSPartNumber) {
         this.diskName = diskName;
         this.password = password;
 
         espPartition = new Partition(diskName, 1, "/mnt/efi");
-        xbootldrPartition = new Partition(diskName, 5, "ea00", "XBOOTLDR", xbootldrSize, "/mnt/boot");
-        linuxLUKSPartition = new Partition(diskName, 6, "8309", "luks-encrypted", null, null);
+        xbootldrPartition = new Partition(diskName, xbootldrPartNumber, "ea00", "XBOOTLDR", xbootldrSize, "/mnt/boot");
+        linuxLUKSPartition = new Partition(diskName, linuxLUKSPartNumber, "8309", "luks-encrypted", null, null);
         swapVolume = new LogicalVolume(getVolumeGroupName(), "swap", swapSize, null);
         rootVolume = new LogicalVolume(getVolumeGroupName(), "root", null, "/mnt");
     }

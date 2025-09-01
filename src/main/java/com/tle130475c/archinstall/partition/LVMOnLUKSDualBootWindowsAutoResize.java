@@ -18,7 +18,7 @@ public class LVMOnLUKSDualBootWindowsAutoResize extends LVMOnLUKSDualBootWindows
             String password,
             Partition windowsPartition,
             StorageDeviceSize linuxSystemSize) {
-        super(diskName, xbootldrSize, swapSize, password);
+        super(diskName, xbootldrSize, swapSize, password, 5, 6);
         this.windowsPartition = windowsPartition;
         this.linuxSystemSize = linuxSystemSize;
     }
