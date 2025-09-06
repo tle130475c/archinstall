@@ -27,7 +27,7 @@ public final class NetworkUtil {
 
                 WirelessNetwork network = new WirelessNetwork(ssid, password, "wlan0", true);
                 network.connect();
-                TimeUnit.SECONDS.sleep(5);
+                TimeUnit.SECONDS.sleep(60);
 
                 isConnected = isConnectedToInternet();
 
@@ -41,7 +41,7 @@ public final class NetworkUtil {
 
     public static void connectToWifi(WirelessNetwork network) throws InterruptedException, IOException {
         network.connect();
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(60);
         if (!isConnectedToInternet()) {
             System.console().printf("Cannot connect to Internet!%n");
             System.exit(1);
