@@ -98,8 +98,8 @@ public class GNOME implements Installable {
         gSettingsSet("org.gnome.settings-daemon.plugins.color", "night-light-enabled", "true");
         gSettingsSet("org.gnome.settings-daemon.plugins.color", "night-light-schedule-from", "18.0");
 
-        // empty favorite apps
-        gSettingsSet("org.gnome.shell", "favorite-apps", "[]");
+        // set dark theme
+        gSettingsSet(GNOME_DESKTOP_INTERFACE_SCHEMA, "color-scheme", "prefer-dark");
 
         // configure nautilus
         gSettingsSet("org.gnome.nautilus.preferences", "default-folder-viewer", "list-view");
