@@ -64,7 +64,6 @@ public class ConfigureSystem implements Runnable {
         GNOME gnomeInstall = new GNOME(null, userAccount);
         gnomeInstall.configureDesktopInterface();
         gnomeInstall.createCustomShortcut(gnomeInstall.readShortcutsFromFile("gnome-shortcuts.txt"));
-        gnomeInstall.configureIbusBamboo();
         gnomeInstall.enableExtension("appindicatorsupport@rgcjonas.gmail.com");
     }
 

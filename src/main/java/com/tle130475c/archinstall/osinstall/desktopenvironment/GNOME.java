@@ -4,7 +4,6 @@ import static com.tle130475c.archinstall.util.ConfigUtil.createUserEnvironmentDi
 import static com.tle130475c.archinstall.util.ConfigUtil.enableService;
 import static com.tle130475c.archinstall.util.PackageUtil.installAURPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
-import static com.tle130475c.archinstall.util.PackageUtil.installPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.isInMainRepos;
 import static com.tle130475c.archinstall.util.PackageUtil.isPackageInstalled;
 import static com.tle130475c.archinstall.util.ShellUtil.runGetOutput;
@@ -31,8 +30,6 @@ public class GNOME implements Installable {
     private static final String SCHEMA_TO_ITEM = "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding";
     private static final String PATH_TO_CUSTOM_KEY = "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom";
 
-    private static final String IBUS_BAMBOO_PACKAGE = "ibus-bamboo";
-
     private final String chrootDir;
     private final UserAccount userAccount;
 
@@ -54,7 +51,6 @@ public class GNOME implements Installable {
                 "transmission-gtk", "power-profiles-daemon", "gvfs-smb", "gvfs-google", "gvfs-mtp", "gvfs-nfs",
                 "gnome-logs", "evolution", "evolution-ews", "evolution-on", "gnome-software",
                 "gnome-boxes", "gnome-remote-desktop", "gnome-connections", "gedit", "gedit-plugins"), chrootDir);
-        installPkgs(List.of(IBUS_BAMBOO_PACKAGE), userAccount, chrootDir);
 
         return 0;
     }
@@ -85,16 +81,6 @@ public class GNOME implements Installable {
         }
 
         return 0;
-    }
-
-    public void configureIbusBamboo() throws InterruptedException, IOException {
-        if (!isPackageInstalled(IBUS_BAMBOO_PACKAGE, chrootDir)) {
-            installPkgs(List.of(IBUS_BAMBOO_PACKAGE), userAccount, chrootDir);
-            System.console().printf("Please restart then run the configure for ibus-bamboo again.");
-            return;
-        }
-
-        gSettingsSet("org.gnome.desktop.input-sources", "sources", "[('xkb', 'us'), ('ibus', 'Bamboo')]");
     }
 
     public void configureDesktopInterface() throws InterruptedException, IOException {
