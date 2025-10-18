@@ -7,6 +7,7 @@ import static com.tle130475c.archinstall.util.ConfigUtil.enableService;
 import static com.tle130475c.archinstall.util.ConfigUtil.findAndReplaceInLine;
 import static com.tle130475c.archinstall.util.ConfigUtil.getServiceState;
 import static com.tle130475c.archinstall.util.ConfigUtil.isServiceStarted;
+import static com.tle130475c.archinstall.util.ConfigUtil.startService;
 import static com.tle130475c.archinstall.util.ConfigUtil.stopService;
 import static com.tle130475c.archinstall.util.ConfigUtil.uncommentLine;
 import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
@@ -50,6 +51,9 @@ public class BaseSystem {
 
     public void waitUntilKeyringIsInitialized() throws IOException, InterruptedException {
         System.console().printf("Waiting for keyring to be initialized...%n");
+
+        startService("archlinux-keyring-wkd-sync.timer", null);
+        TimeUnit.SECONDS.sleep(30);
 
         while (!isServiceStarted("archlinux-keyring-wkd-sync.timer", null)) {
             TimeUnit.SECONDS.sleep(1);
