@@ -106,7 +106,6 @@ public class GNOME implements Installable {
 
         // configure nautilus
         gSettingsSet("org.gnome.nautilus.preferences", "default-folder-viewer", "list-view");
-        gSettingsSet("org.gnome.nautilus.list-view", "default-zoom-level", "large");
 
         // disable suspend
         gSettingsSet(GNOME_POWER_SCHEMA, "sleep-inactive-battery-type", "nothing");
