@@ -4,6 +4,7 @@ import static com.tle130475c.archinstall.util.ConfigUtil.createUserEnvironmentDi
 import static com.tle130475c.archinstall.util.ConfigUtil.enableService;
 import static com.tle130475c.archinstall.util.PackageUtil.installAURPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.installMainReposPkgs;
+import static com.tle130475c.archinstall.util.PackageUtil.installPkgs;
 import static com.tle130475c.archinstall.util.PackageUtil.isInMainRepos;
 import static com.tle130475c.archinstall.util.PackageUtil.isPackageInstalled;
 import static com.tle130475c.archinstall.util.ShellUtil.runGetOutput;
@@ -51,6 +52,8 @@ public class GNOME implements Installable {
                 "transmission-gtk", "power-profiles-daemon", "gvfs-smb", "gvfs-google", "gvfs-mtp", "gvfs-nfs",
                 "gnome-logs", "evolution", "evolution-ews", "evolution-on", "gnome-software",
                 "gnome-boxes", "gnome-remote-desktop", "gnome-connections", "gedit", "gedit-plugins"), chrootDir);
+        installMainReposPkgs(List.of("fcitx5-bamboo", "fcitx5-configtool"), chrootDir);
+        installPkgs(List.of("gnome-shell-extension-kimpanel-git"), userAccount, chrootDir);
 
         return 0;
     }
