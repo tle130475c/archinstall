@@ -89,7 +89,6 @@ public class GNOME implements Installable {
     public void configureDesktopInterface() throws InterruptedException, IOException {
         final String GNOME_DESKTOP_INTERFACE_SCHEMA = "org.gnome.desktop.interface";
         final String GNOME_POWER_SCHEMA = "org.gnome.settings-daemon.plugins.power";
-        final String GNOME_APP_SWITCHER_SCHEMA = "org.gnome.shell.app-switcher";
 
         // set font-antialiasing to rgba
         gSettingsSet(GNOME_DESKTOP_INTERFACE_SCHEMA, "font-antialiasing", "rgba");
