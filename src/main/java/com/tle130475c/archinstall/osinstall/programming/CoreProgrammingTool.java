@@ -20,7 +20,7 @@ public class CoreProgrammingTool implements Installable {
     @Override
     public int install() throws InterruptedException, IOException {
         installPkgs(List.of("git", "github-cli", "kdiff3", "valgrind", "kruler", "sublime-merge", "sublime-text",
-                "visual-studio-code-bin", "postman-bin", "emacs-wayland", "gvim", "bash-language-server",
+                "visual-studio-code-bin", "zed", "postman-bin", "emacs-wayland", "gvim", "bash-language-server",
                 "kate", "dbeaver", "dbeaver-plugin-office", "dbeaver-plugin-svg-format", "powershell-bin",
                 "azure-cli", "direnv", "visual-studio-code-insiders-bin", "git-lfs", "openrefine", "storageexplorer",
                 "subversion", "azcopy"),
