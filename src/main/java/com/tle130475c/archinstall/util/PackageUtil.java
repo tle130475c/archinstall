@@ -148,21 +148,12 @@ public final class PackageUtil {
                 ? getCommandRunChrootAsUser(createTmpDirCmd, userAccount.getUsername(), chrootDir)
                 : createTmpDirCmd);
 
-        // download yay.tar.gz package
-        List<String> downloadPkgCmd = List.of("curl", "-LJo",
-                "/home/%s/tmp/yay.tar.gz".formatted(userAccount.getUsername()),
-                "https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz");
+        // clone yay
+        List<String> clonePkgCmd = List.of("git", "clone", "https://aur.archlinux.org/yay.git",
+                "/home/%s/tmp/yay".formatted(userAccount.getUsername()));
         runVerbose(chrootDir != null
-                ? getCommandRunChrootAsUser(downloadPkgCmd, userAccount.getUsername(), chrootDir)
-                : downloadPkgCmd);
-
-        // extract package
-        List<String> extractPkgCmd = List.of("tar", "-xvf",
-                "/home/%s/tmp/yay.tar.gz".formatted(userAccount.getUsername()), "-C",
-                "/home/%s/tmp".formatted(userAccount.getUsername()));
-        runVerbose(chrootDir != null
-                ? getCommandRunChrootAsUser(extractPkgCmd, userAccount.getUsername(), chrootDir)
-                : extractPkgCmd);
+                ? getCommandRunChrootAsUser(clonePkgCmd, userAccount.getUsername(), chrootDir)
+                : clonePkgCmd);
 
         List<String> installPkgCmd = List.of("bash", "-c", """
                 export GOCACHE="/home/%s/.cache/go-build";
