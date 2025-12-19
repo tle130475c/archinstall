@@ -21,9 +21,7 @@ public class Game implements Installable {
     @Override
     public int install() throws InterruptedException, IOException {
         installMainReposPkgsWithOptionalDeps(List.of("lutris", "wine", "winetricks"), chrootDir);
-        installPkgs(List.of("discord", "steam", "steam-native-runtime",
-                "minecraft-launcher", "retroarch", "libretro", "gnome-chess",
-                "gnuchess", "kigo", "quadrapassel", "wesnoth", "bovo"),
+        installPkgs(List.of("discord", "steam", "minecraft-launcher"),
                 userAccount, chrootDir);
 
         return 0;
