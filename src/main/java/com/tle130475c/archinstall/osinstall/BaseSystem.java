@@ -242,7 +242,8 @@ public class BaseSystem {
         backupFile(PATH_TO_MKINITCPIO_CONFIG);
 
         findAndReplaceInLine(PATH_TO_MKINITCPIO_CONFIG, MKINITCPIO_HOOKS_LINE_PATTERN,
-                "block", "block encrypt lvm2");
+                "block", "block sd-encrypt lvm2");
+        findAndReplaceInLine(PATH_TO_MKINITCPIO_CONFIG, MKINITCPIO_HOOKS_LINE_PATTERN, "keymap ", "");
 
         buildInitramfsImageMkinitcpio();
     }
@@ -258,7 +259,7 @@ public class BaseSystem {
             configureMkinitcpioForHibernation();
             if (systemInfo.getPartitionLayout() instanceof LVMOnLUKSPartitionLayout layout) {
                 configureMkinitcpioForEncryptedRootFileSystem();
-                writer.print("options cryptdevice=UUID=%s:%s"
+                writer.print("options rd.luks.name=%s=%s"
                         .formatted(layout.getLinuxLUKSPartition().getUUID(), layout.getLUKSMapperName()));
                 writer.print(" root=%s".formatted(layout.getRoot().getPath()));
                 writer.println(" resume=UUID=%s rw".formatted(layout.getSwap().getUUID()));
