@@ -1,0 +1,11 @@
+virt-manager
+qemu-full
+vde2
+dnsmasq
+virt-viewer
+dmidecode
+edk2-ovmf
+swtpm
+qemu-hw-usb-host
+qemu-block-gluster
+qemu-block-iscsi
