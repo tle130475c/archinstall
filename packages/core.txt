@@ -58,3 +58,5 @@ remmina
 freerdp
 dbeaver
 postgresql-libs
+torbrowser-launcher
+firefox-developer-edition
