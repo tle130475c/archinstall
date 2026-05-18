@@ -32,8 +32,7 @@ source $(dirname $0)/create_normal_ext4_disk_layout.sh
 retry pacstrap /mnt base base-devel linux linux-headers \
       linux-lts linux-lts-headers linux-zen linux-zen-headers \
       linux-firmware man-pages man-db iptables bash-completion \
-      nfs-utils emacs-wayland usbutils systemd-ukify efibootmgr \
-      amd-ucode terminus-font
+      usbutils systemd-ukify
 
 #--------------------------------------------------------------------
 # Configure zram
@@ -52,13 +51,12 @@ EOF
 # Generate fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Configure timezone, localization, keymap, root's password, hostname
+# Configure timezone, localization, keymap, hostname
 systemd-firstboot --root=/mnt \
                   --locale=en_US.UTF-8 \
                   --keymap=us \
                   --timezone=Asia/Ho_Chi_Minh \
-                  --hostname="$hostname" \
-                  --root-password-hashed="$root_pwhash"
+                  --hostname="$hostname"
 arch-chroot /mnt hwclock --systohc
 sed -i '/^#en_US.UTF-8/s/#//' /mnt/etc/locale.gen
 arch-chroot /mnt locale-gen
@@ -72,12 +70,13 @@ retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
 arch-chroot /mnt systemctl enable NetworkManager
 
 # # Set vconsole font size
+# arch-chroot -S /mnt pacman -Syu --needed --noconfirm terminus-font
 # grep -qxF 'FONT=ter-v32n' /mnt/etc/vconsole.conf \
-#     || printf 'FONT=ter-v32n\n' >> /mnt/etc/vconsole.conf
+    #     || printf 'FONT=ter-v32n\n' >> /mnt/etc/vconsole.conf
 # arch-chroot /mnt mkinitcpio -P
 
 # Setup account
-arch-chroot /mnt usermod -p $root_pwhash root
+arch-chroot /mnt usermod -p "$root_pwhash" root
 arch-chroot /mnt id -u "$username" &>/dev/null \
     || arch-chroot /mnt useradd -m -s /bin/bash \
                    -G wheel \
@@ -93,6 +92,9 @@ arch-chroot /mnt install -m 0440 -o root -g root \
 #  ------------------------------------------------------------------
 # Configure systemd-boot
 #  ------------------------------------------------------------------
+arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+            efibootmgr amd-ucode
+
 # Configure kernel parameter
 mkdir -p /mnt/etc/cmdline.d
 
@@ -126,3 +128,35 @@ EOF
 #  ------------------------------------------------------------------
 # Configure systemd-boot
 #  ------------------------------------------------------------------
+
+# Install PipeWire
+retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+      - < "$(dirname "$0")/packages/pipewire.txt"
+
+# Install GPU-agnostic packages
+retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+      - < "$(dirname "$0")/packages/gpu.txt"
+
+# Install AMD GPU
+retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+      - < "$(dirname "$0")/packages/amd.txt"
+
+# Install Docker
+retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+      - < "$(dirname "$0")/packages/docker.txt"
+arch-chroot -S /mnt systemctl enable docker.socket
+arch-chroot -S /mnt usermod -aG docker "$username"
+
+# Install fonts
+retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+      - < "$(dirname "$0")/packages/font.txt"
+
+# Install GNOME
+retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+      - < "$(dirname "$0")/packages/gnome.txt"
+arch-chroot -S /mnt systemctl enable gdm.service
+arch-chroot -S /mnt systemctl enable bluetooth.service
+
+# Install core packages
+retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+      - < "$(dirname "$0")/packages/core.txt"

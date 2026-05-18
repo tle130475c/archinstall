@@ -1,0 +1,7 @@
+pipewire
+pipewire-pulse
+pipewire-alsa
+gst-plugin-pipewire
+lib32-pipewire
+wireplumber
+alsa-utils
