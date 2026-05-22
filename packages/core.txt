@@ -16,13 +16,12 @@ kdiff3
 valgrind
 kruler
 emacs-wayland
-texlive-basic
-texlive-latex
-texlive-latexrecommended
-texlive-fontsrecommended
-texlive-xetex
+texlive
+texlive-lang
+biber
 uv
 nvm
+maven
 azcopy
 azure-cli
 aws-cli-v2
@@ -41,6 +40,7 @@ ddcutil
 proton-vpn-gtk-app
 libreoffice-fresh
 calibre
+foliate
 kolourpaint
 vlc
 vlc-plugins-all
@@ -51,6 +51,7 @@ gst-plugins-ugly
 obs-studio
 inkscape
 gimp
+blender
 kdenlive
 keepassxc
 flatpak

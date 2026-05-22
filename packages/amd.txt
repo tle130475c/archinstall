@@ -1,2 +1,4 @@
 vulkan-radeon
 lib32-vulkan-radeon
+hip-runtime-amd
+hiprt
