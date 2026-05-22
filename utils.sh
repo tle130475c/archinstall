@@ -33,11 +33,12 @@ check_internet() {
 }
 
 connect_to_wifi() {
-    local ssid=$0
-    local password=$1
+    local ssid=$1
+    local password=$2
     local station=${3:-wlan0}
-    local hidden=${4:-true}
+    local hidden=${4:-false}
 
+    local subcmd
     if [[ "$hidden" == "true" ]]; then
         subcmd="connect-hidden"
     else
