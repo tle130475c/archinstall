@@ -129,6 +129,12 @@ EOF
 # Configure systemd-boot
 #  ------------------------------------------------------------------
 
+# Install KVM
+retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+      - < "$(dirname "$0")/packages/kvm.txt"
+arch-chroot -S /mnt systemctl enable libvirtd.socket virtlogd.socket
+arch-chroot -S /mnt usermod -aG libvirt,kvm "$username"
+
 # Install PipeWire
 retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/pipewire.txt"
