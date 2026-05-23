@@ -184,6 +184,15 @@ trap 'rm -f "/mnt/etc/sudoers.d/99-passwordless-$username"' EXIT
 arch-chroot /mnt /usr/bin/su - "$username" -s /bin/bash \
             < "$(dirname "$0")/install_yay.sh"
 
+# Install AUR packages
+# Don't try to put $packages inside double quotes in the heredocs in
+# this case, it cause error "package not found"
+pkgfile="$(dirname "$0")/packages/aur.txt"
+packages=$(grep -E '^.+$' "$pkgfile" | tr '\n' ' ')
+arch-chroot /mnt /usr/bin/su - "$username" -s /bin/bash <<EOF
+yay -Syu --needed --noconfirm $packages
+EOF
+
 # Disable passwordless (redundant action)
 rm -f "/mnt/etc/sudoers.d/99-passwordless-$username"
 trap - EXIT
