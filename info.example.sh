@@ -9,7 +9,7 @@ username=
 realname=
 
 # Pre-hashed password (output of: openssl passwd -6)
-# Single quotes are important — the hash contains $ characters.
+# Single quotes are important - the hash contains $ characters.
 user_pwhash=
 root_pwhash=
 

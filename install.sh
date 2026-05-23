@@ -70,7 +70,7 @@ retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
 arch-chroot /mnt systemctl enable NetworkManager
 
 # # Set vconsole font size
-# arch-chroot -S /mnt pacman -Syu --needed --noconfirm terminus-font
+# arch-chroot /mnt pacman -Syu --needed --noconfirm terminus-font
 # grep -qxF 'FONT=ter-v32n' /mnt/etc/vconsole.conf \
     #     || printf 'FONT=ter-v32n\n' >> /mnt/etc/vconsole.conf
 # arch-chroot /mnt mkinitcpio -P
@@ -92,7 +92,7 @@ arch-chroot /mnt install -m 0440 -o root -g root \
 #  ------------------------------------------------------------------
 # Configure systemd-boot
 #  ------------------------------------------------------------------
-arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+arch-chroot /mnt pacman -Syu --needed --noconfirm \
             efibootmgr amd-ucode
 
 # Configure kernel parameter
@@ -130,39 +130,63 @@ EOF
 #  ------------------------------------------------------------------
 
 # Install KVM
-retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/kvm.txt"
-arch-chroot -S /mnt systemctl enable libvirtd.socket virtlogd.socket
-arch-chroot -S /mnt usermod -aG libvirt,kvm "$username"
+arch-chroot /mnt systemctl enable libvirtd.socket virtlogd.socket
+arch-chroot /mnt usermod -aG libvirt,kvm "$username"
 
 # Install PipeWire
-retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/pipewire.txt"
 
 # Install GPU-agnostic packages
-retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/gpu.txt"
 
 # Install AMD GPU
-retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/amd.txt"
 
 # Install Docker
-retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/docker.txt"
-arch-chroot -S /mnt systemctl enable docker.socket
-arch-chroot -S /mnt usermod -aG docker "$username"
+arch-chroot /mnt systemctl enable docker.socket
+arch-chroot /mnt usermod -aG docker "$username"
 
 # Install fonts
-retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/font.txt"
 
 # Install GNOME
-retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/gnome.txt"
-arch-chroot -S /mnt systemctl enable gdm.service
-arch-chroot -S /mnt systemctl enable bluetooth.service
+arch-chroot /mnt systemctl enable gdm.service
+arch-chroot /mnt systemctl enable bluetooth.service
 
 # Install core packages
-retry arch-chroot -S /mnt pacman -Syu --needed --noconfirm \
+retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/core.txt"
+
+# -------------------------------------------------------------------
+# yay AUR Helper and AUR installation
+# -------------------------------------------------------------------
+retry arch-chroot /mnt pacman -Syu --needed --noconfirm git
+
+# Enable passwordless
+arch-chroot /mnt install -m 0440 -o root -g root \
+            /dev/stdin "/etc/sudoers.d/99-passwordless-$username" \
+            <<< "$username ALL=(ALL:ALL) NOPASSWD: ALL"
+
+# Cleanup on script exit
+trap 'rm -f "/mnt/etc/sudoers.d/99-passwordless-$username"' EXIT
+
+# Install yay
+arch-chroot /mnt /usr/bin/su - "$username" -s /bin/bash \
+            < "$(dirname "$0")/install_yay.sh"
+
+# Disable passwordless (redundant action)
+rm -f "/mnt/etc/sudoers.d/99-passwordless-$username"
+trap - EXIT
+# -------------------------------------------------------------------
+# yay AUR Helper and AUR installation
+# -------------------------------------------------------------------
