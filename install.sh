@@ -189,7 +189,7 @@ arch-chroot /mnt /usr/bin/su - "$username" -s /bin/bash \
 # this case, it cause error "package not found"
 pkgfile="$(dirname "$0")/packages/aur.txt"
 packages=$(grep -E '^.+$' "$pkgfile" | tr '\n' ' ')
-arch-chroot /mnt /usr/bin/su - "$username" -s /bin/bash <<EOF
+retry arch-chroot /mnt /usr/bin/su - "$username" -s /bin/bash <<EOF
 yay -Syu --needed --noconfirm $packages
 EOF
 
