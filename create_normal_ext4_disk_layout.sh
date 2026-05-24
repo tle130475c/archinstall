@@ -15,9 +15,14 @@ part_root="${part_prefix}3"
 
 # Clean up
 umount -R /mnt 2>/dev/null || true
+for part in $(lsblk -lnpo NAME "$disk" | tail -n +2); do
+    wipefs -a -f "$part"
+done
 wipefs -a -f "$disk"
 sgdisk -Z "$disk"
+dd if=/dev/zero of="$disk" bs=1 count=100 status=progress
 partprobe "$disk"
+sleep 1
 
 # Create ESP partition
 sgdisk -n 0:0:+2GiB -t 0:ef00 -c 0:esp "$disk"
@@ -33,7 +38,7 @@ partprobe "$disk"
 # Format partition
 mkfs.fat -F32 "$part_esp"
 mkfs.fat -F32 "$part_xbootldr"
-mkfs.ext4 "$part_root"
+mkfs.ext4 -F "$part_root"
 
 # Mount partition
 mount -o noatime "$part_root" /mnt
