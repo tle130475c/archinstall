@@ -6,6 +6,7 @@ rclone
 7zip
 unarchiver
 unrar
+zip
 tree
 expect
 archiso
