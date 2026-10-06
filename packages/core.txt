@@ -13,10 +13,12 @@ archiso
 git
 github-cli
 git-lfs
+wl-clipboard
 kdiff3
 valgrind
 kruler
 emacs-wayland
+zed
 texlive
 texlive-lang
 biber

@@ -1,6 +1,3 @@
 google-chrome
-neo4j-desktop
 visual-studio-code-bin
 openrefine
-storageexplorer
-virtio-win
