@@ -135,6 +135,11 @@ retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
 arch-chroot /mnt systemctl enable libvirtd.socket virtlogd.socket
 arch-chroot /mnt usermod -aG libvirt,kvm "$username"
 
+# Install VirtualBox
+retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
+      - < "$(dirname "$0")/packages/virtualbox.txt"
+arch-chroot /mnt usermod -aG vboxusers "$username"
+
 # Install PipeWire
 retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/pipewire.txt"
