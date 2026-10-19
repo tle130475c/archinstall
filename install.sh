@@ -108,16 +108,24 @@ cat > /mnt/etc/cmdline.d/zram.conf <<EOF
 zswap.enabled=0
 EOF
 
-# Configure /etc/mkinitcpio.d/*.preset files
+# Configure /etc/mkinitcpio.d/*.preset files. Put the UKIs on
+# XBOOTLDR (/boot), not the ESP (/efi): three UKIs take about 200 MiB
+# and the ESP that Windows creates is often only 100 MiB. systemd-boot
+# finds UKIs in EFI/Linux on either partition.
 for file in /mnt/etc/mkinitcpio.d/*; do
     sed -i 's/^default_image/#&/' $file
     sed -i '/#default_uki/s/#//' $file
     sed -i '/#default_options/s/#//' $file
     sed -i '/#fallback_uki/s/#//' $file
+    sed -i 's|"/efi/EFI/Linux/|"/boot/EFI/Linux/|' $file
 done
 
+# Delete the initramfs images pacstrap built with the stock preset.
+# The UKIs replace them, so nothing would use or update them.
+rm -f /mnt/boot/initramfs-*.img
+
 # Create directory for the UKIs and regenerate the initramfs
-mkdir -p /mnt/efi/EFI/Linux
+mkdir -p /mnt/boot/EFI/Linux
 arch-chroot /mnt mkinitcpio -P
 
 # Install systemd-boot
