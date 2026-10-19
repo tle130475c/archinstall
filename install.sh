@@ -163,6 +163,45 @@ retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
 # Install Docker
 retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/docker.txt"
+# Keep Docker from setting the FORWARD policy to DROP, which cuts
+# KVM NAT guests off the internet (they still get a DHCP lease from
+# virbr0).
+#
+# Root cause: libvirtd and docker are both socket-activated, so at
+# boot net.ipv4.ip_forward=0 until one of them starts. If Docker
+# starts first, it turns ip_forward on and sets the FORWARD policy
+# to DROP for the rest of the boot. libvirt's accept rules live in
+# its own nftables table (libvirt_network) and can't override a
+# drop from another table. If libvirt starts first, ip_forward is
+# already 1 and Docker leaves the policy alone, so it looks
+# intermittent.
+#
+# Check on a running machine (broken if: -P FORWARD DROP):
+#   sudo iptables -S FORWARD | head -1
+# Fix a machine installed without this:
+#   echo '{ "ip-forward-no-drop": true }' |
+#       sudo tee /etc/docker/daemon.json
+#   sudo iptables -P FORWARD ACCEPT  # this boot only, or reboot
+#
+# Why it isn't Docker's default: ip_forward is host-wide, so Docker
+# pairs turning it on with DROP to avoid routing between every host
+# interface. A KVM NAT host needs that routing, which is what this
+# opt-out is for.
+#
+# Later: this option only affects Docker's iptables firewall
+# backend (the default as of Docker 29). The nftables backend
+# ("firewall-backend": "nftables", experimental in Docker 29) never
+# sets a DROP policy, so this becomes a harmless no-op. But that
+# backend also stops turning ip_forward on itself and reports an
+# error at startup (default bridge) if ip_forward=0, which happens
+# when Docker starts before libvirt. If that backend becomes the
+# default or gets enabled here, keep this and also enable
+# forwarding at boot:
+#   echo 'net.ipv4.ip_forward = 1' |
+#       sudo tee /etc/sysctl.d/30-ip-forward.conf
+arch-chroot /mnt install -D -m 0644 -o root -g root \
+            /dev/stdin /etc/docker/daemon.json \
+            <<< '{ "ip-forward-no-drop": true }'
 arch-chroot /mnt systemctl enable docker.socket
 arch-chroot /mnt usermod -aG docker "$username"
 
