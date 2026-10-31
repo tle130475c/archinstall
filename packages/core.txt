@@ -66,3 +66,6 @@ dbeaver
 postgresql-libs
 torbrowser-launcher
 firefox-developer-edition
+discord
+telegram-desktop
+steam
