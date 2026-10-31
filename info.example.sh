@@ -15,6 +15,8 @@ root_pwhash=
 
 hostname=
 
+desktop= # gnome or kde
+
 # Wifi information
 wifi_ssid=
 wifi_password=
@@ -28,6 +30,7 @@ wifi_hidden='false'
 : ${user_pwhash:?}
 : ${root_pwhash:?}
 : ${hostname:?}
+: ${desktop:?}
 : ${wifi_ssid:?}
 : ${wifi_password:?}
 

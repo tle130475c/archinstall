@@ -8,6 +8,15 @@ set -euo pipefail
 source $(dirname $0)/info.sh
 source $(dirname $0)/utils.sh
 
+# Display manager of the desktop chosen in info.sh. Checked before
+# touching the disk. To add a desktop: packages/<desktop>.txt and a
+# line here.
+case "$desktop" in
+    gnome) display_manager=gdm.service ;;
+    kde)   display_manager=plasmalogin.service ;;
+    *)     printf 'unknown desktop: %s\n' "$desktop"; exit 1 ;;
+esac
+
 # Disable reflector
 systemctl disable --now reflector.timer
 systemctl disable --now reflector.service
@@ -209,10 +218,10 @@ arch-chroot /mnt usermod -aG docker "$username"
 retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
       - < "$(dirname "$0")/packages/font.txt"
 
-# Install GNOME
+# Install the desktop environment
 retry arch-chroot /mnt pacman -Syu --needed --noconfirm \
-      - < "$(dirname "$0")/packages/gnome.txt"
-arch-chroot /mnt systemctl enable gdm.service
+      - < "$(dirname "$0")/packages/$desktop.txt"
+arch-chroot /mnt systemctl enable "$display_manager"
 arch-chroot /mnt systemctl enable bluetooth.service
 
 # Install core packages
