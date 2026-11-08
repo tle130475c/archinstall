@@ -17,6 +17,14 @@ case "$desktop" in
     *)     printf 'unknown desktop: %s\n' "$desktop"; exit 1 ;;
 esac
 
+# Partitioning script of the disk layout chosen in info.sh. Checked
+# before touching the disk. To add a layout: disk_layouts/<layout>.sh
+disk_layout_script="$(dirname "$0")/disk_layouts/$disk_layout.sh"
+[[ -f $disk_layout_script ]] || {
+    printf 'unknown disk layout: %s\n' "$disk_layout"
+    exit 1
+}
+
 # Disable reflector
 systemctl disable --now reflector.timer
 systemctl disable --now reflector.service
@@ -35,7 +43,7 @@ waiting_for_keyring_sync
 cp $(dirname $0)/mirrorlist /etc/pacman.d/mirrorlist
 
 # Create partition layout
-source $(dirname $0)/create_normal_ext4_disk_layout.sh
+source "$disk_layout_script"
 
 # Install essential packages via pacstrap
 retry pacstrap /mnt base base-devel linux linux-headers \

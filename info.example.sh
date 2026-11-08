@@ -17,6 +17,12 @@ hostname=
 
 desktop= # gnome or kde
 
+# Disk layout:
+#   ext4           - wipe $disk: ESP, XBOOTLDR, ext4 root
+#   dual_boot_ext4 - keep Windows on $disk (its ESP is partition 1),
+#                    add XBOOTLDR and ext4 root in the free space
+disk_layout=
+
 # Wifi information
 wifi_ssid=
 wifi_password=
@@ -31,6 +37,7 @@ wifi_hidden='false'
 : ${root_pwhash:?}
 : ${hostname:?}
 : ${desktop:?}
+: ${disk_layout:?}
 : ${wifi_ssid:?}
 : ${wifi_password:?}
 
